@@ -5,8 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PowerLoop"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+        Title="PowerLoop" Height="450" Width="800"
+        d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel, IsDesignTimeCreatable=True}">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" LastChildFill="False">
+            <Button Content="Play" Click="Play_Click" MinWidth="150"/>
+        </DockPanel>
+        <DockPanel Grid.Row="1" Margin="0,5,0,0">
+            <Label DockPanel.Dock="Top" Content="Settings"/>
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                <Button Content="Add Item" MinWidth="100"/>
+            </StackPanel>
+            <ItemsControl>
+                
+            </ItemsControl>
+        </DockPanel>
     </Grid>
 </Window>

@@ -1,0 +1,34 @@
+﻿<Window x:Class="PowerLoop.PlayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+        xmlns:local="clr-namespace:PowerLoop"
+        xmlns:settings="clr-namespace:PowerLoop.Settings"
+        mc:Ignorable="d"
+        Title="PlayWindow" Height="450" Width="800"
+        WindowStyle="None"
+        WindowState="Maximized"
+        ResizeMode="NoResize"
+        d:DataContext="{d:DesignInstance Type=local:PlayViewModel, IsDesignTimeCreatable=True}">
+    <Window.Resources>
+        <local:LoopItemTemplateSelector x:Key="LoopItemTemplateSelector"/>
+        <local:ImageSourceConverter x:Key="ImageSourceConverter"/>
+        <DataTemplate x:Key="ImageTemplate" DataType="{x:Type settings:LoopItem}">
+            <Image Source="{Binding Path=Path, Converter={StaticResource ImageSourceConverter}}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="WebTemplate" DataType="{x:Type settings:LoopItem}">
+            <wv2:WebView2 Name="WebView" Source="{Binding Path=Path}" />
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <ContentControl Content="{Binding Path=CurrentItem}" ContentTemplateSelector="{DynamicResource LoopItemTemplateSelector}"/>
+    </Grid>
+    <Window.InputBindings>
+        <KeyBinding Command="ApplicationCommands.Close" Key="Esc" />
+    </Window.InputBindings>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close" Executed="CloseCommandBinding_Executed" />
+    </Window.CommandBindings>
+</Window>
