@@ -1,8 +1,23 @@
 ﻿@inject SettingsViewModel settingsViewModel
 
-<div class="mx-3">
+<div class="mx-3 mt-2">
     <h4>Settings</h4>
+    <div class="mb-2">
+        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add"
+                   Size="Size.Small">Add</MudButton>
+    </div>
     <ObservableRegion ViewModel="@this.settingsViewModel">
-
+        <MudDataGrid T="LoopItem" Items="@this.settingsViewModel.LoopItems" Dense=true Bordered=true>
+            <Columns>
+                <Column T="LoopItem" Title="Order" Field="@nameof(LoopItem.Order)" />
+                <Column T="LoopItem" Title="Type" Field="@nameof(LoopItem.Type)" />
+                <Column T="LoopItem" Title="Location" Field="@nameof(LoopItem.Path)" />
+                <Column T="LoopItem" CellClass="justify-end">
+                    <CellTemplate>
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Outlined.Edit" />
+                    </CellTemplate>
+                </Column>
+            </Columns>
+        </MudDataGrid>
     </ObservableRegion>
 </div>

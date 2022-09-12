@@ -10,6 +10,7 @@
 <ObservableRegion ViewModel="@this.playViewModel">
     @if (!this.playViewModel.IsPlaying)
     {
+        <MudDivider DividerType="DividerType.Middle"/>
         <SettingsView />
     }
 </ObservableRegion>
