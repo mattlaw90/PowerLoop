@@ -1,16 +1,13 @@
 ﻿<ObservableRegion ViewModel="@this.PlayViewModel">
-    @if (this.PlayViewModel.IsPlaying)
+    @if (this.PlayViewModel.IsPlaying && this.PlayViewModel.CurrentItem != null)
     {
-        @if (this.PlayViewModel.CurrentItem != null)
+        @if (this.PlayViewModel.CurrentItem.Type == LoopItemType.Image)
         {
-            @if (this.PlayViewModel.CurrentItem.Type == LoopItemType.Image)
-            {
-                <img src="@this.PlayViewModel.CurrentItem.Path"/>
-            }
-            else if (this.PlayViewModel.CurrentItem.Type == LoopItemType.Web)
-            {
-                <iframe src=@this.PlayViewModel.CurrentItem.Path></iframe>
-            }
+            <img src="@this.PlayViewModel.CurrentItem.Path"/>
+        }
+        else if (this.PlayViewModel.CurrentItem.Type == LoopItemType.Web)
+        {
+            <iframe src=@this.PlayViewModel.CurrentItem.Path></iframe>
         }
     }
 </ObservableRegion>

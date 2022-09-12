@@ -35,9 +35,10 @@ namespace PowerLoop.UI
             // Add Mud
             services.AddMudServices();
 
-            // Add ViewModels
+            // Add ViewModels as singletons - no need for more than one of each
             services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<PlayViewModel>();
+            services.AddSingleton<SettingsViewModel>();
 
             this.serviceProvider = services.BuildServiceProvider();
         }
@@ -48,6 +49,7 @@ namespace PowerLoop.UI
                 this.serviceProvider,
                 this.serviceProvider.GetRequiredService<MainWindowViewModel>(),
                 this.serviceProvider.GetRequiredService<PlayViewModel>());
+
             mainWindow.Show();
         }
     }
