@@ -2,6 +2,27 @@
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+body {
+    height: 100vh;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+}
+
+#app,
+iframe {
+    height: 100%;
+    width: 100%;
+}
+
+img {
+    height: 100%;
+    display: flex;
+    align-self: center;
+}
+
 h1:focus {
     outline: none;
 }

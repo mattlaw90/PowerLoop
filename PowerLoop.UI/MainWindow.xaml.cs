@@ -1,8 +1,11 @@
-﻿namespace PowerLoop.UI
+﻿// <copyright file="MainWindow.xaml.cs" company="Matt Law">
+// Copyright (c) Matt Law. All rights reserved.
+// </copyright>
+
+namespace PowerLoop.UI
 {
     using System.Windows;
     using Microsoft.Extensions.DependencyInjection;
-    using MudBlazor.Services;
     using PowerLoop.UI.Play;
 
     /// <summary>
@@ -10,18 +13,30 @@
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly MainWindowViewModel mainWindowViewModel;
+        private readonly PlayViewModel playViewModel;
+
+        public MainWindow(
+            ServiceProvider serviceProvider,
+            MainWindowViewModel mainWindowViewModel,
+            PlayViewModel playViewModel)
         {
             this.InitializeComponent();
 
-            // Register services
-            var serviceCollection = new ServiceCollection();
-            serviceCollection.AddWpfBlazorWebView();
-            serviceCollection.AddMudServices();
-            serviceCollection.AddScoped<PlayViewModel>();
-
             // Add for the webview
-            this.Resources.Add("services", serviceCollection.BuildServiceProvider());
+            this.Resources.Add("services", serviceProvider);
+
+            this.mainWindowViewModel = mainWindowViewModel;
+            this.playViewModel = playViewModel;
+
+            this.DataContext = this.mainWindowViewModel;
+        }
+
+        private void CloseCommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            // if (MessageBox.Show("Close?", "Close", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            this.playViewModel.Stop();
+            this.mainWindowViewModel.OnStop();
         }
     }
 }

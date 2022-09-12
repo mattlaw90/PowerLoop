@@ -1,19 +1,20 @@
-﻿@inject PlayViewModel playViewModel
+﻿@inject MainWindowViewModel mainWindowViewModel
+@inject PlayViewModel playViewModel
 
-<MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.PlayArrow" Color="Color.Primary"
-           OnClick="@this.OnPlay">
-    Play
-</MudButton>
+<ObservableRegion ViewModel="@this.playViewModel">
+    @if (!this.playViewModel.IsPlaying)
+    {
+        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.PlayArrow" Color="Color.Primary"
+               OnClick="@this.OnPlay" Class="m-3">
+            Play
+        </MudButton>
+    }
+</ObservableRegion>
 
 @code {
     private void OnPlay()
     {
-        var playWindow = new PlayWindow(this.playViewModel);
-
-        if (playWindow != null)
-        {
-            _ = playWindow.ShowDialog();
-            this.playViewModel.Start();
-        }
+        this.mainWindowViewModel.OnPlay();
+        this.playViewModel.Start();
     }
 }

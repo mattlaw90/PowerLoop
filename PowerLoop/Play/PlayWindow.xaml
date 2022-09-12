@@ -13,7 +13,6 @@
         WindowStyle="None"
         WindowState="Maximized"
         ResizeMode="NoResize"
-        d:DataContext="{d:DesignInstance Type=play:PlayViewModel, IsDesignTimeCreatable=True}"
         x:Name="PlayDialog">
     <Window.Resources>
         <u:LoopItemTemplateSelector x:Key="LoopItemTemplateSelector"/>
