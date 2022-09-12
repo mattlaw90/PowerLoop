@@ -14,7 +14,7 @@ namespace PowerLoop
     /// </summary>
     public partial class App : Application
     {
-        private ServiceProvider serviceProvider;
+        public ServiceProvider ServiceProvider;
 
         public App()
         {
@@ -30,19 +30,15 @@ namespace PowerLoop
             services.AddScoped<MainWindowViewModel>();
             services.AddScoped<PlayViewModel>();
             services.AddScoped<PlayWindow>();
-            services.AddSingleton<MainWindow>();
+            services.AddWpfBlazorWebView();
 
-            this.serviceProvider = services.BuildServiceProvider();
+            this.ServiceProvider = services.BuildServiceProvider();
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            var mainWindow = this.serviceProvider.GetService<MainWindow>();
-
-            if (mainWindow != null)
-            {
-                mainWindow.Show();
-            }
+            var mainWindow = new MainWindow();
+            mainWindow.Show();
         }
     }
 }

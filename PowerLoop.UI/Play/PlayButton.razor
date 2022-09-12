@@ -1,0 +1,19 @@
+﻿@inject PlayViewModel playViewModel
+
+<MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.PlayArrow" Color="Color.Primary"
+           OnClick="@this.OnPlay">
+    Play
+</MudButton>
+
+@code {
+    private void OnPlay()
+    {
+        var playWindow = new PlayWindow(this.playViewModel);
+
+        if (playWindow != null)
+        {
+            _ = playWindow.ShowDialog();
+            this.playViewModel.Start();
+        }
+    }
+}

@@ -5,32 +5,30 @@
 namespace PowerLoop
 {
     using System.Windows;
-    using PowerLoop.Play;
+    using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml.
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly PlayViewModel playViewModel;
-
-        public MainWindow(MainWindowViewModel mainWindowViewModel, PlayViewModel playViewModel)
+        public MainWindow()
         {
             this.InitializeComponent();
 
-            this.DataContext = mainWindowViewModel;
-            this.playViewModel = playViewModel;
+            // Add service collection for blazor
+            this.Resources.Add("services", App.Current.Properties[nameof(App.ServiceProvider)]);
         }
 
         private void Play_Click(object sender, RoutedEventArgs e)
         {
-            var playWindow = new PlayWindow(this.playViewModel);
+            //var playWindow = new PlayWindow(this.playViewModel);
 
-            if (playWindow != null)
-            {
-                _ = playWindow.ShowDialog();
-                this.playViewModel.Start();
-            }
+            //if (playWindow != null)
+            //{
+            //    _ = playWindow.ShowDialog();
+            //    this.playViewModel.Start();
+            //}
         }
     }
 }

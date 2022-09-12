@@ -2,14 +2,14 @@
 // Copyright (c) Matthew Law. All rights reserved.
 // </copyright>
 
-namespace PowerLoop.Play
+namespace PowerLoop.UI.Play
 {
     using System.Collections.ObjectModel;
     using System.Data;
     using System.Linq;
     using System.Windows.Threading;
     using CommunityToolkit.Mvvm.ComponentModel;
-    using PowerLoop.Settings;
+    using PowerLoop.UI.Settings;
 
     public class PlayViewModel : ObservableObject
     {
