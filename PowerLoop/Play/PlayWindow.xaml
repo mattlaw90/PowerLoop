@@ -6,24 +6,29 @@
         xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         xmlns:local="clr-namespace:PowerLoop"
         xmlns:settings="clr-namespace:PowerLoop.Settings"
+        xmlns:u="clr-namespace:PowerLoop.Utilities"
+        xmlns:play="clr-namespace:PowerLoop.Play"
         mc:Ignorable="d"
         Title="PlayWindow" Height="450" Width="800"
         WindowStyle="None"
         WindowState="Maximized"
         ResizeMode="NoResize"
-        d:DataContext="{d:DesignInstance Type=local:PlayViewModel, IsDesignTimeCreatable=True}">
+        d:DataContext="{d:DesignInstance Type=play:PlayViewModel, IsDesignTimeCreatable=True}"
+        x:Name="PlayDialog">
     <Window.Resources>
-        <local:LoopItemTemplateSelector x:Key="LoopItemTemplateSelector"/>
-        <local:ImageSourceConverter x:Key="ImageSourceConverter"/>
+        <u:LoopItemTemplateSelector x:Key="LoopItemTemplateSelector"/>
+        <u:ImageSourceConverter x:Key="ImageSourceConverter"/>
+        <u:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <u:InvertBoolToVisibilityConverter x:Key="InvertBoolToVisibilityConverter"/>
         <DataTemplate x:Key="ImageTemplate" DataType="{x:Type settings:LoopItem}">
             <Image Source="{Binding Path=Path, Converter={StaticResource ImageSourceConverter}}"/>
         </DataTemplate>
-        <DataTemplate x:Key="WebTemplate" DataType="{x:Type settings:LoopItem}">
-            <wv2:WebView2 Name="WebView" Source="{Binding Path=Path}" />
-        </DataTemplate>
     </Window.Resources>
     <Grid>
-        <ContentControl Content="{Binding Path=CurrentItem}" ContentTemplateSelector="{DynamicResource LoopItemTemplateSelector}"/>
+        <ContentControl Content="{Binding Path=CurrentItem}" ContentTemplateSelector="{DynamicResource LoopItemTemplateSelector}"
+                        Visibility="{Binding Path=ShowItem, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        <wv2:WebView2 x:Name="WebView" Visibility="{Binding Path=ShowItem, Converter={StaticResource InvertBoolToVisibilityConverter}}"
+                      Source="{Binding Path=CurrentUri, Mode=TwoWay}"/>
     </Grid>
     <Window.InputBindings>
         <KeyBinding Command="ApplicationCommands.Close" Key="Esc" />

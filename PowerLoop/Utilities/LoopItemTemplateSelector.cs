@@ -2,7 +2,7 @@
 // Copyright (c) Matthew Law. All rights reserved.
 // </copyright>
 
-namespace PowerLoop
+namespace PowerLoop.Utilities
 {
     using System;
     using System.Windows;
@@ -25,12 +25,7 @@ namespace PowerLoop
                 return element.FindResource("ImageTemplate") as DataTemplate;
             }
 
-            if (i.Type == LoopItemType.Web)
-            {
-                return element.FindResource("WebTemplate") as DataTemplate;
-            }
-
-            throw new ApplicationException();
+            return null;
         }
     }
 }

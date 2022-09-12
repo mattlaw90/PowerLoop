@@ -5,6 +5,7 @@
 namespace PowerLoop
 {
     using System.Windows;
+    using PowerLoop.Play;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml.
@@ -24,7 +25,12 @@ namespace PowerLoop
         private void Play_Click(object sender, RoutedEventArgs e)
         {
             var playWindow = new PlayWindow(this.playViewModel);
-            var closed = playWindow.ShowDialog();
+
+            if (playWindow != null)
+            {
+                _ = playWindow.ShowDialog();
+                this.playViewModel.Start();
+            }
         }
     }
 }

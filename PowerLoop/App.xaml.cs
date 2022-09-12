@@ -6,6 +6,7 @@ namespace PowerLoop
 {
     using System.Windows;
     using Microsoft.Extensions.DependencyInjection;
+    using PowerLoop.Play;
     using PowerLoop.Settings;
 
     /// <summary>

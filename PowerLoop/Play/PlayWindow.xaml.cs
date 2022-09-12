@@ -5,6 +5,7 @@
 namespace PowerLoop
 {
     using System.Windows;
+    using PowerLoop.Play;
 
     /// <summary>
     /// Interaction logic for PlayWindow.xaml.
@@ -24,6 +25,7 @@ namespace PowerLoop
         private void CloseCommandBinding_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
             // if (MessageBox.Show("Close?", "Close", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            ((PlayViewModel)this.DataContext).Stop();
             this.Close();
         }
     }
