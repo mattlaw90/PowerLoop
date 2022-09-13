@@ -1,13 +1,14 @@
-﻿@inject SettingsViewModel settingsViewModel
-
-<div class="mx-3 mt-2">
-    <h4>Settings</h4>
-    <div class="mb-2">
-        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add"
-                   Size="Size.Small">Add</MudButton>
-    </div>
-    <ObservableRegion ViewModel="@this.settingsViewModel">
-        <MudDataGrid T="LoopItem" Items="@this.settingsViewModel.LoopItems" Dense=true Bordered=true>
+﻿<ObservableRegion ViewModel="@this.SettingsViewModel">
+    <div class="mx-3 mt-2">
+        <h4>Settings</h4>
+        <p>Add loop timer config</p>
+        <div class="mb-2">
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save"
+                       Size="Size.Small" OnClick="@this.SettingsViewModel.OnSave">Save</MudButton>
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add"
+                       Size="Size.Small">Add</MudButton>
+        </div>
+        <MudDataGrid T="LoopItem" Items="@this.SettingsViewModel.LoopItems" Dense=true Bordered=true>
             <Columns>
                 <Column T="LoopItem" Title="Order" Field="@nameof(LoopItem.Order)" />
                 <Column T="LoopItem" Title="Type" Field="@nameof(LoopItem.Type)" />
@@ -19,5 +20,5 @@
                 </Column>
             </Columns>
         </MudDataGrid>
-    </ObservableRegion>
-</div>
+    </div>
+</ObservableRegion>

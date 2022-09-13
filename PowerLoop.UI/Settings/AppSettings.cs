@@ -1,5 +1,5 @@
-﻿// <copyright file="AppSettings.cs" company="Matthew Law">
-// Copyright (c) Matthew Law. All rights reserved.
+﻿// <copyright file="AppSettings.cs" company="Matt Law">
+// Copyright (c) Matt Law. All rights reserved.
 // </copyright>
 
 namespace PowerLoop.UI.Settings
@@ -8,6 +8,8 @@ namespace PowerLoop.UI.Settings
 
     public class AppSettings
     {
-        public List<LoopItem> Items { get; set; }
+        public int DefaultInterval { get; set; }
+
+        public List<LoopItem> LoopItems { get; set; }
     }
 }

@@ -6,50 +6,44 @@ namespace PowerLoop.UI.Settings
 {
     using System.Collections.Generic;
     using CommunityToolkit.Mvvm.ComponentModel;
+    using MudBlazor;
+    using PowerLoop.UI.Settings.Commands;
+    using PowerLoop.UI.Settings.Queries;
 
     public class SettingsViewModel : ObservableObject
     {
-        public SettingsViewModel()
+        private readonly GetSettings getSettings;
+        private readonly SaveSettings saveSettings;
+        private readonly ISnackbar snackbar;
+        private AppSettings appSettings;
+
+        public SettingsViewModel(
+            GetSettings getSettings,
+            SaveSettings saveSettings)
         {
-            this.LoopItems.Add(new LoopItem()
-            {
-                Order = 1,
-                Type = LoopItemType.Image,
-                Path = "images/ClubCrest.png",
-            });
-
-            this.LoopItems.Add(new LoopItem()
-            {
-                Order = 2,
-                Type = LoopItemType.Web,
-                Path = "https://www.englandrugby.com/fixtures-and-results/search-results?team=14247&season=2022-2023#results",
-            });
-
-            this.LoopItems.Add(new LoopItem()
-            {
-                Order = 3,
-                Type = LoopItemType.Web,
-                Path = "https://www.englandrugby.com/fixtures-and-results/search-results?team=14247&season=2022-2023#table",
-            });
-
-            this.LoopItems.Add(new LoopItem()
-            {
-                Order = 4,
-                Type = LoopItemType.Web,
-                Path = "https://www.englandrugby.com/fixtures-and-results/search-results?team=14247&season=2022-2023#fixtures",
-            });
+            this.getSettings = getSettings;
+            this.saveSettings = saveSettings;
+            // this.snackbar = snackbar;
         }
 
         public List<LoopItem> LoopItems { get; } = new List<LoopItem>();
 
-        public void GetSettings()
+        public void OnGet()
         {
+            this.appSettings = this.getSettings.Execute();
 
+            this.LoopItems.Clear();
+            this.LoopItems.AddRange(this.appSettings.LoopItems);
         }
 
-        public void SetSettings()
+        public void OnSave()
         {
+            if (this.appSettings != null)
+            {
+                var path = this.saveSettings.Execute(this.appSettings);
 
+                this.snackbar.Add($"Settings save to: {path}");
+            }
         }
     }
 }

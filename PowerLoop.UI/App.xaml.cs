@@ -6,9 +6,12 @@ namespace PowerLoop.UI
 {
     using System.Windows;
     using Microsoft.Extensions.DependencyInjection;
+    using MudBlazor;
     using MudBlazor.Services;
     using PowerLoop.UI.Play;
     using PowerLoop.UI.Settings;
+    using PowerLoop.UI.Settings.Commands;
+    using PowerLoop.UI.Settings.Queries;
 
     /// <summary>
     /// Interaction logic for App.xaml.
@@ -26,14 +29,26 @@ namespace PowerLoop.UI
         {
             var services = new ServiceCollection();
 
-            services.AddSingleton<ISettingsReader>(s => new SettingsReader("config.json", "AppSettings"));
-
             // Add Blazor
             services.AddWpfBlazorWebView();
             services.AddBlazorWebViewDeveloperTools();
 
             // Add Mud
-            services.AddMudServices();
+            services.AddMudServices(c =>
+            {
+                c.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomRight;
+                c.SnackbarConfiguration.PreventDuplicates = false;
+                c.SnackbarConfiguration.NewestOnTop = true;
+                c.SnackbarConfiguration.ShowCloseIcon = true;
+                c.SnackbarConfiguration.VisibleStateDuration = 10000;
+                c.SnackbarConfiguration.HideTransitionDuration = 500;
+                c.SnackbarConfiguration.ShowTransitionDuration = 500;
+                c.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
+            });
+
+            // Add queries/commands
+            services.AddSingleton<GetSettings>();
+            services.AddSingleton<SaveSettings>();
 
             // Add ViewModels as singletons - no need for more than one of each
             services.AddSingleton<MainWindowViewModel>();

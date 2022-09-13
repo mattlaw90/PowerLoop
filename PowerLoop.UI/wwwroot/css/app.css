@@ -12,7 +12,8 @@ body {
 }
 
 #app,
-iframe {
+iframe,
+video {
     height: 100%;
     width: 100%;
 }
@@ -21,6 +22,12 @@ img {
     height: 100%;
     display: flex;
     align-self: center;
+}
+
+video {
+    overflow: hidden;
+    clip-path: inset(1px 1px);
+    outline: none;
 }
 
 #blazor-error-ui {

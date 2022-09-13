@@ -11,5 +11,7 @@ namespace PowerLoop.UI.Settings
         public string Path { get; set; }
 
         public int Order { get; set; }
+
+        public int Length { get; set; }
     }
 }
