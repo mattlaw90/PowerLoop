@@ -1,7 +1,11 @@
 ﻿<ObservableRegion ViewModel="@this.PlayViewModel">
     @if (this.PlayViewModel.IsPlaying && this.PlayViewModel.CurrentItem is LoopItem li)
     {
-        @if (li.Type == LoopItemType.Image)
+        @if (li.Type == LoopItemType.Text)
+        {
+            <MudText>@li.Path</MudText>
+        }
+        else if (li.Type == LoopItemType.Image)
         {
             <img src="@li.Path" />
         }

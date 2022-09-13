@@ -6,10 +6,9 @@ namespace PowerLoop.UI.Settings
 {
     public enum LoopItemType
     {
-        Unknown,
-        Image,
-        Video,
-        Web,
-        Text
+        Text = 0,
+        Image = 1,
+        Video = 2,
+        Web = 3,
     }
 }

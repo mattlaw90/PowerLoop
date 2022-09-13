@@ -4,12 +4,18 @@
 
 namespace PowerLoop.UI.Settings.Commands
 {
-    using System;
     using System.IO;
     using System.Text.Json;
 
     public class SaveSettings
     {
+        private readonly Config config;
+
+        public SaveSettings(Config config)
+        {
+            this.config = config;
+        }
+
         /// <summary>
         /// Saves the settings to a file and returns the path to the file.
         /// </summary>
@@ -19,13 +25,13 @@ namespace PowerLoop.UI.Settings.Commands
         {
             var json = JsonSerializer.Serialize(settings);
 
-            string path = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "powerloop-appsettings.json");
+            // Create the PowerLoop folder if it doesn't already exist
+            FileInfo file = new FileInfo(this.config.AppSettingsPath);
+            file?.Directory?.Create();
 
-            File.WriteAllText(path, json);
+            File.WriteAllText(this.config.AppSettingsPath, json);
 
-            return path;
+            return this.config.AppSettingsPath;
         }
     }
 }

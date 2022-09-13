@@ -1,24 +1,22 @@
 ﻿<ObservableRegion ViewModel="@this.SettingsViewModel">
     <div class="mx-3 mt-2">
         <h4>Settings</h4>
-        <p>Add loop timer config</p>
-        <div class="mb-2">
-            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save"
-                       Size="Size.Small" OnClick="@this.SettingsViewModel.OnSave">Save</MudButton>
-            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add"
-                       Size="Size.Small">Add</MudButton>
-        </div>
-        <MudDataGrid T="LoopItem" Items="@this.SettingsViewModel.LoopItems" Dense=true Bordered=true>
+        <MudNumericField @bind-Value="this.SettingsViewModel.DefaultInterval" Label="Loop Interval" Variant="Variant.Outlined" Min="0"/>
+        <MudDataGrid T="LoopItem" Items="@this.SettingsViewModel.LoopItems" Dense=true Bordered=true Class="mt-3">
             <Columns>
                 <Column T="LoopItem" Title="Order" Field="@nameof(LoopItem.Order)" />
                 <Column T="LoopItem" Title="Type" Field="@nameof(LoopItem.Type)" />
                 <Column T="LoopItem" Title="Location" Field="@nameof(LoopItem.Path)" />
                 <Column T="LoopItem" CellClass="justify-end">
                     <CellTemplate>
-                        <MudIconButton Size="@Size.Small" Icon="@Icons.Outlined.Edit" />
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Outlined.Edit" OnClick="@(() => this.OnEdit(context.Item))"/>
                     </CellTemplate>
                 </Column>
             </Columns>
         </MudDataGrid>
+        <div class="my-2">
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add"
+                       Size="Size.Small" OnClick="@this.OnAdd">Add</MudButton>
+        </div>
     </div>
 </ObservableRegion>

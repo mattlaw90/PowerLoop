@@ -1,0 +1,24 @@
+﻿<MudDialog>
+    <DialogContent>
+        @if (this.localLoopItem != null)
+        {
+            <MudNumericField @bind-Value="this.localLoopItem.Order" Label="Order" Variant="Variant.Outlined" Min="0" />
+            <div class="my-2">
+                <MudSelect @bind-Value="this.localLoopItem.Type" Label="Type" Variant="Variant.Outlined" Placeholder="Select Type">
+                    @foreach (LoopItemType type in Enum.GetValues(typeof(LoopItemType)))
+                    {
+                        <MudSelectItem Value="@type">@type</MudSelectItem>
+                    }
+                </MudSelect>
+            </div>
+            <div class="my-2">
+                <MudTextField @bind-Value="this.localLoopItem.Path" Label="Path" Variant="Variant.Outlined" Placeholder="Path or Text Value" />
+            </div>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+

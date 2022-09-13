@@ -4,18 +4,21 @@
 
 namespace PowerLoop.UI.Settings
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using CommunityToolkit.Mvvm.ComponentModel;
     using MudBlazor;
     using PowerLoop.UI.Settings.Commands;
     using PowerLoop.UI.Settings.Queries;
+    using PowerLoop.UI.Shared;
 
-    public class SettingsViewModel : ObservableObject
+    public class SettingsViewModel : ObservableObject, INotifier
     {
         private readonly GetSettings getSettings;
         private readonly SaveSettings saveSettings;
-        private readonly ISnackbar snackbar;
         private AppSettings appSettings;
+        private int defaultInterval;
 
         public SettingsViewModel(
             GetSettings getSettings,
@@ -23,27 +26,52 @@ namespace PowerLoop.UI.Settings
         {
             this.getSettings = getSettings;
             this.saveSettings = saveSettings;
-            // this.snackbar = snackbar;
         }
+
+        public event Action<string, Severity> Notified;
 
         public List<LoopItem> LoopItems { get; } = new List<LoopItem>();
 
+        public int DefaultInterval { get => this.defaultInterval; set => this.SetProperty(ref this.defaultInterval, value); }
+
         public void OnGet()
         {
-            this.appSettings = this.getSettings.Execute();
+            if (this.getSettings.Execute() is AppSettings settings)
+            {
+                this.appSettings = settings;
 
-            this.LoopItems.Clear();
-            this.LoopItems.AddRange(this.appSettings.LoopItems);
+                this.LoopItems.Clear();
+                this.LoopItems.AddRange(this.appSettings.LoopItems.OrderBy(i => i.Order));
+
+                this.DefaultInterval = this.appSettings.DefaultInterval;
+            }
         }
 
         public void OnSave()
         {
-            if (this.appSettings != null)
+            // Create a new appsettings if not previously retrieved
+            if (this.appSettings == null)
             {
-                var path = this.saveSettings.Execute(this.appSettings);
-
-                this.snackbar.Add($"Settings save to: {path}");
+                this.appSettings = new AppSettings()
+                {
+                    DefaultInterval = this.defaultInterval,
+                    LoopItems = this.LoopItems,
+                };
             }
+            else
+            {
+                this.appSettings.DefaultInterval = this.DefaultInterval;
+                this.appSettings.LoopItems = this.LoopItems;
+            }
+
+            var path = this.saveSettings.Execute(this.appSettings);
+
+            this.Notified?.Invoke($"Settings saved in: {path}", Severity.Success);
+        }
+
+        public void OnAdd(LoopItem loopItem)
+        {
+            this.LoopItems.Add(loopItem);
         }
     }
 }

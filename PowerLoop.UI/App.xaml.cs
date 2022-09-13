@@ -4,10 +4,14 @@
 
 namespace PowerLoop.UI
 {
+    using System;
+    using System.IO;
+    using System.Linq;
     using System.Windows;
     using Microsoft.Extensions.DependencyInjection;
     using MudBlazor;
     using MudBlazor.Services;
+    using PowerLoop.UI.Logging;
     using PowerLoop.UI.Play;
     using PowerLoop.UI.Settings;
     using PowerLoop.UI.Settings.Commands;
@@ -33,6 +37,20 @@ namespace PowerLoop.UI
             services.AddWpfBlazorWebView();
             services.AddBlazorWebViewDeveloperTools();
 
+            // Add system config
+            services.AddScoped(s => new Config()
+            {
+                AppSettingsPath = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    "PowerLoop",
+                    "appsettings.json"),
+
+                LogPath = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    "PowerLoop",
+                    "log.txt"),
+            });
+
             // Add Mud
             services.AddMudServices(c =>
             {
@@ -47,23 +65,23 @@ namespace PowerLoop.UI
             });
 
             // Add queries/commands
-            services.AddSingleton<GetSettings>();
-            services.AddSingleton<SaveSettings>();
+            services.AddScoped<GetSettings>();
+            services.AddScoped<SaveSettings>();
 
             // Add ViewModels as singletons - no need for more than one of each
             services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<PlayViewModel>();
             services.AddSingleton<SettingsViewModel>();
 
+            // Add AppLogger once
+            services.AddSingleton<AppLogger>();
+
             this.serviceProvider = services.BuildServiceProvider();
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            var mainWindow = new MainWindow(
-                this.serviceProvider,
-                this.serviceProvider.GetRequiredService<MainWindowViewModel>(),
-                this.serviceProvider.GetRequiredService<PlayViewModel>());
+            var mainWindow = new MainWindow(this.serviceProvider);
 
             mainWindow.Show();
         }

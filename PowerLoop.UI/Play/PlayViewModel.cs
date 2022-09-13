@@ -8,12 +8,15 @@ namespace PowerLoop.UI.Play
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
+    using System.Windows.Input;
     using System.Windows.Threading;
     using CommunityToolkit.Mvvm.ComponentModel;
+    using MudBlazor;
     using PowerLoop.UI.Settings;
     using PowerLoop.UI.Settings.Queries;
+    using PowerLoop.UI.Shared;
 
-    public class PlayViewModel : ObservableObject
+    public class PlayViewModel : ObservableObject, INotifier
     {
         private readonly GetSettings getSettings;
         private DispatcherTimer timer;
@@ -22,6 +25,9 @@ namespace PowerLoop.UI.Play
         private LoopItem currentItem;
         private bool isPlaying;
         private AppSettings appSettings;
+
+        /// <inheritdoc/>
+        public event Action<string, Severity> Notified;
 
         public PlayViewModel(GetSettings getSettings)
         {
@@ -51,7 +57,7 @@ namespace PowerLoop.UI.Play
             this.GetSettings();
 
             // If the timer is not already playing, start it
-            if (!this.timer.IsEnabled)
+            if (this.timer != null && !this.timer.IsEnabled)
             {
                 // Set first item
                 this.CurrentItem = this.Items[0];
@@ -72,6 +78,25 @@ namespace PowerLoop.UI.Play
             this.timer.Stop();
         }
 
+        public bool OnTryStop(KeyEventArgs? args)
+        {
+            if (args != null)
+            {
+                if (args.Key == Key.Escape)
+                {
+                    this.Stop();
+                    return true;
+                }
+                else
+                {
+                    // Notify wrong key
+                    this.Notified?.Invoke($"Press Escape to exit loop.", Severity.Info);
+                }
+            }
+
+            return false;
+        }
+
         private void Cycle(object? sender, System.EventArgs e)
         {
             // TODO Display transition state
@@ -89,22 +114,25 @@ namespace PowerLoop.UI.Play
         private void GetSettings()
         {
             // Get items and order them
-            this.appSettings = this.getSettings.Execute();
-
-            if (this.timer == null)
+            if (this.getSettings.Execute() is AppSettings settings)
             {
-                // Initialise the timer
-                this.timer = new DispatcherTimer();
-                this.timer.Tick += this.Cycle;
-                this.timer.Interval = new System.TimeSpan(0, 0, this.appSettings.DefaultInterval);
+                this.appSettings = settings;
+
+                if (this.timer == null)
+                {
+                    // Initialise the timer
+                    this.timer = new DispatcherTimer();
+                    this.timer.Tick += this.Cycle;
+                    this.timer.Interval = new System.TimeSpan(0, 0, this.appSettings.DefaultInterval);
+                }
+
+                this.Items = this.appSettings.LoopItems.OrderBy(i => i.Order).ToList();
+
+                // Calc the min and max order for looping
+                var orders = this.Items.Select(item => item.Order);
+                this.maxOrder = orders.Max();
+                this.minOrder = orders.Min();
             }
-
-            this.Items = this.appSettings.LoopItems.OrderBy(i => i.Order).ToList();
-
-            // Calc the min and max order for looping
-            var orders = this.Items.Select(item => item.Order);
-            this.maxOrder = orders.Max();
-            this.minOrder = orders.Min();
         }
     }
 }
