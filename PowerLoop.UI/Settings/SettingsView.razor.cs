@@ -34,9 +34,9 @@ namespace PowerLoop.UI.Settings
 
             var dialogOptions = new DialogOptions()
             {
+                MaxWidth = MaxWidth.ExtraLarge,
                 CloseButton = false,
                 FullWidth = true,
-                FullScreen = true,
                 CloseOnEscapeKey = false,
                 DisableBackdropClick = true,
             };
@@ -64,9 +64,9 @@ namespace PowerLoop.UI.Settings
 
             var dialogOptions = new DialogOptions()
             {
+                MaxWidth = MaxWidth.ExtraLarge,
                 CloseButton = false,
                 FullWidth = true,
-                FullScreen = true,
                 CloseOnEscapeKey = false,
                 DisableBackdropClick = true,
             };
@@ -78,6 +78,23 @@ namespace PowerLoop.UI.Settings
             if (result.Data is LoopItem li)
             {
                 loopItem.CopyFrom(li);
+                this.SettingsViewModel.OnSave();
+            }
+        }
+
+        private async Task OnDelete(LoopItem loopItem)
+        {
+            // Prompt
+            bool? result = await this.DialogService.ShowMessageBox(
+                "Delete",
+                $"Delete {loopItem.Path}?",
+                yesText: "Delete!",
+                cancelText: "Cancel");
+
+            // Delete
+            if (result is bool r && r)
+            {
+                this.SettingsViewModel.OnDelete(loopItem);
                 this.SettingsViewModel.OnSave();
             }
         }

@@ -4,10 +4,12 @@
 <ObservableRegion ViewModel="@this.playViewModel">
     @if (!this.playViewModel.IsPlaying)
     {
-        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.PlayArrow" Color="Color.Primary"
+        <MudPaper Square="true">
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.PlayArrow" Color="Color.Primary"
                    OnClick="@this.OnPlay" Class="m-3">
-            Play
-        </MudButton>
+                Play
+            </MudButton>
+        </MudPaper>
     }
 </ObservableRegion>
 

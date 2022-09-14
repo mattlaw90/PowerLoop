@@ -64,7 +64,9 @@ namespace PowerLoop.UI
 
         private void OnKeyDown(KeyEventArgs? args)
         {
-            if (this.playViewModel.OnTryStop(args))
+            // Only try and stop on key down if playing
+            if (this.playViewModel.IsPlaying &&
+                this.playViewModel.OnTryStop(args))
             {
                 this.OnStop();
             }

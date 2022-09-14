@@ -73,5 +73,10 @@ namespace PowerLoop.UI.Settings
         {
             this.LoopItems.Add(loopItem);
         }
+
+        public void OnDelete(LoopItem loopItem)
+        {
+            this.LoopItems.Remove(loopItem);
+        }
     }
 }

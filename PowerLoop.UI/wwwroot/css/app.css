@@ -18,6 +18,14 @@ video {
     width: 100%;
 }
 
+.loop-text {
+    text-align: center;
+}
+
+.interval-input {
+    max-width: 120px;
+}
+
 img {
     height: 100%;
     display: flex;
