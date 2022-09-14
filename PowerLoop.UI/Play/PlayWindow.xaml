@@ -1,0 +1,38 @@
+﻿<Window x:Class="PowerLoop.UI.Play.PlayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+        xmlns:local="clr-namespace:PowerLoop.UI.Play"
+        xmlns:settings="clr-namespace:PowerLoop.UI.Settings"
+        xmlns:u="clr-namespace:PowerLoop.UI.Utilities"
+        xmlns:play="clr-namespace:PowerLoop.UI.Play"
+        mc:Ignorable="d"
+        Title="PlayWindow" Height="450" Width="800"
+        WindowStyle="None"
+        WindowState="Maximized"
+        ResizeMode="NoResize"
+        x:Name="PlayDialog">
+    <Window.Resources>
+        <u:LoopItemTemplateSelector x:Key="LoopItemTemplateSelector"/>
+        <u:ImageSourceConverter x:Key="ImageSourceConverter"/>
+        <u:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <u:InvertBoolToVisibilityConverter x:Key="InvertBoolToVisibilityConverter"/>
+        <DataTemplate x:Key="ImageTemplate" DataType="{x:Type settings:LoopItem}">
+            <Image Source="{Binding Path=Path, Converter={StaticResource ImageSourceConverter}}"/>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <ContentControl Content="{Binding Path=CurrentItem}" ContentTemplateSelector="{DynamicResource LoopItemTemplateSelector}"
+                        Visibility="{Binding Path=ShowItem, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        <wv2:WebView2 x:Name="WebView" Visibility="{Binding Path=ShowItem, Converter={StaticResource InvertBoolToVisibilityConverter}}"
+                      Source="{Binding Path=CurrentUri, Mode=TwoWay}"/>
+    </Grid>
+    <Window.InputBindings>
+        <KeyBinding Command="ApplicationCommands.Close" Key="Esc" />
+    </Window.InputBindings>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close" Executed="CloseCommandBinding_Executed" />
+    </Window.CommandBindings>
+</Window>

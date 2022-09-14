@@ -1,0 +1,23 @@
+﻿<ObservableRegion ViewModel="@this.PlayViewModel">
+    @if (this.PlayViewModel.IsPlaying && this.PlayViewModel.CurrentItem is LoopItem li)
+    {
+        @if (li.Type == LoopItemType.Text)
+        {
+            <MudPaper Class="d-flex flex-grow-1 gap-4">
+                <MudText Class="loop-text align-self-center flex-1">@li.Path</MudText>
+            </MudPaper>            
+        }
+        else if (li.Type == LoopItemType.Image)
+        {
+            <img src="@li.Path" />
+        }
+        else if (li.Type == LoopItemType.Web)
+        {
+            <iframe src=@li.Path></iframe>
+        }
+        else if (li.Type == LoopItemType.Video)
+        {
+            <video src="@li.Path" autoplay="autoplay" loop="loop"/>
+        }
+    }
+</ObservableRegion>

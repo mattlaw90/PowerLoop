@@ -1,0 +1,43 @@
+﻿<ObservableRegion ViewModel="@this.SettingsViewModel">
+    <div class="mx-3 mt-2">
+        <h4>Settings</h4>
+        <MudPaper Elevation="0" Class="mb-5">
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Size="Size.Small" Class="mr-3"
+                       OnClick="@this.SettingsViewModel.OnSave">Save</MudButton>
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small"
+                       OnClick="@this.OnAdd">Add</MudButton>
+        </MudPaper>
+        <MudGrid>
+            <MudItem xs="4">
+                <MudNumericField @bind-Value="this.SettingsViewModel.DefaultInterval" Label="Loop Interval" Variant="Variant.Outlined" Min="0" FullWidth="false" Class="interval-input"/>
+            </MudItem>
+            <MudItem xs="12">
+                <MudDataGrid T="LoopItem" Items="@this.SettingsViewModel.LoopItems" Dense=true Bordered=true Class="mt-3"
+                             ColumnResizeMode="ResizeMode.Column">
+                    <ColGroup>
+                        <col style="width: 20px;" />
+                        <col style="width: 40px;" />
+                        <col style="width: 50px;" />
+                        <col />
+                        <col style="width: 20px;" />
+                    </ColGroup>
+                    <Columns>
+                        <Column T="LoopItem" CellClass="justify-start">
+                            <CellTemplate>
+                                <MudIconButton Size="@Size.Small" Icon="@Icons.Outlined.Edit" OnClick="@(() => this.OnEdit(context.Item))" />
+                            </CellTemplate>
+                        </Column>
+                        <Column T="LoopItem" Title="Order" Field="@nameof(LoopItem.Order)" />
+                        <Column T="LoopItem" Title="Type" Field="@nameof(LoopItem.Type)" />
+                        <Column T="LoopItem" Title="Path (Text Value)" Field="@nameof(LoopItem.Path)" />
+                        <Column T="LoopItem" CellClass="justify-end">
+                            <CellTemplate>
+                                <MudIconButton Size="@Size.Small" Icon="@Icons.Outlined.Delete" Color="Color.Error" OnClick="@(() => this.OnDelete(context.Item))" />
+                            </CellTemplate>
+                        </Column>
+                    </Columns>
+                </MudDataGrid>
+            </MudItem>
+        </MudGrid>
+    </div>
+</ObservableRegion>
