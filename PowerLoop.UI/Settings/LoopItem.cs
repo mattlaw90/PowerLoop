@@ -30,6 +30,11 @@ namespace PowerLoop.UI.Settings
         public int Length { get; set; }
 
         /// <summary>
+        /// Gets a value indicating whether the item is a media type - image or video.
+        /// </summary>
+        public bool IsMedia => this.Type == LoopItemType.Image || this.Type == LoopItemType.Video;
+
+        /// <summary>
         /// Returns a new <see cref="LoopItem"/>.
         /// </summary>
         /// <param name="loopItem">The optional <see cref="LoopItem"/> to initialise values from.</param>

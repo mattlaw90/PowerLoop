@@ -12,6 +12,7 @@
                 </MudSelect>
             </div>
             <div class="my-2">
+                <MudIconButton Icon="@Icons.Material.Filled.ImageSearch" OnClick="@this.OnSearch"/>
                 <MudTextField @bind-Value="this.localLoopItem.Path" Label="Path" Variant="Variant.Outlined" Placeholder="Path or Text Value" />
             </div>
         }

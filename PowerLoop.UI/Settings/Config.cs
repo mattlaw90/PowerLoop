@@ -9,5 +9,7 @@ namespace PowerLoop.UI.Settings
         public string AppSettingsPath { get; set; }
 
         public string LogPath { get; set; }
+
+        public string MediaPath { get; set; }
     }
 }

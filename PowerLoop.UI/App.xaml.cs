@@ -49,6 +49,11 @@ namespace PowerLoop.UI
                     Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                     "PowerLoop",
                     "log.txt"),
+
+                MediaPath = Path.Combine(
+                    System.AppDomain.CurrentDomain.BaseDirectory,
+                    "wwwroot",
+                    "images"),
             });
 
             // Add Mud
@@ -65,6 +70,7 @@ namespace PowerLoop.UI
             });
 
             // Add queries/commands
+            services.AddScoped<BrowseFile>();
             services.AddScoped<GetSettings>();
             services.AddScoped<SaveSettings>();
 

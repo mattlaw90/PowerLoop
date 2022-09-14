@@ -8,6 +8,7 @@ namespace PowerLoop.UI.Settings
     using System.Windows.Documents;
     using Microsoft.AspNetCore.Components;
     using MudBlazor;
+    using PowerLoop.UI.Settings.Queries;
 
     public partial class LoopItemDialog
     {
@@ -15,6 +16,9 @@ namespace PowerLoop.UI.Settings
 
         [Inject]
         private ISnackbar Snackbar { get; set; }
+
+        [Inject]
+        private BrowseFile BrowseFile { get; set; }
 
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }
@@ -47,5 +51,15 @@ namespace PowerLoop.UI.Settings
         }
 
         private void Cancel() => this.MudDialog.Cancel();
+
+        private void OnSearch()
+        {
+            var selectedFilePath = this.BrowseFile.Execute(this.localLoopItem.Path);
+
+            if (!string.IsNullOrEmpty(selectedFilePath))
+            {
+                this.localLoopItem.Path = selectedFilePath;
+            }
+        }
     }
 }

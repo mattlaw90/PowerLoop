@@ -92,7 +92,7 @@ namespace PowerLoop.UI.Settings
                 cancelText: "Cancel");
 
             // Delete
-            if (result is bool r && r)
+            if (result == true)
             {
                 this.SettingsViewModel.OnDelete(loopItem);
                 this.SettingsViewModel.OnSave();
