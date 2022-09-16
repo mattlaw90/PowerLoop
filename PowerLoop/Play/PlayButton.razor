@@ -1,0 +1,22 @@
+﻿@inject MainWindowViewModel mainWindowViewModel
+@inject PlayViewModel playViewModel
+
+<ObservableRegion ViewModel="@this.playViewModel">
+    @if (!this.playViewModel.IsPlaying)
+    {
+        <MudAppBar Color="Color.Dark" DisableGutters="true">
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.PlayArrow" Color="Color.Success"
+                   OnClick="@this.OnPlay" Class="m-3">
+                Play
+            </MudButton>
+        </MudAppBar>
+    }
+</ObservableRegion>
+
+@code {
+    private void OnPlay()
+    {
+        this.mainWindowViewModel.OnPlay();
+        this.playViewModel.Start();
+    }
+}
