@@ -49,10 +49,7 @@ namespace PowerLoop
                     "PowerLoop",
                     "log.txt"),
 
-                MediaPath = Path.Combine(
-                    System.AppDomain.CurrentDomain.BaseDirectory,
-                    "wwwroot",
-                    "images"),
+                VirtualHost = "my-powerloop",
             });
 
             // Add Mud

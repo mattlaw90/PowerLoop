@@ -11,7 +11,7 @@
         {
             @*<img src="data:image/bmp;base64, @(this.PlayViewModel.MediaBase64)" />*@
             @*<img src="@li.Path" />*@
-            <img src="@($"https://local-powerloop/{li.FileName}")" />
+            <img src="@($"https://{this.Config.VirtualHost}/{li.FileName}")" />
         }
         else if (li.Type == LoopItemType.Web)
         {
@@ -19,7 +19,7 @@
         }
         else if (li.Type == LoopItemType.Video)
         {
-            <video src="@($"https://local-powerloop/{li.FileName}")" type="video/mp4" autoplay loop />
+            <video src="@($"https://{this.Config.VirtualHost}/{li.FileName}")" type="video/mp4" autoplay loop />
         }
     }
 </ObservableRegion>

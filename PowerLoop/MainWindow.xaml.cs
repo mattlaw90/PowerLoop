@@ -8,14 +8,16 @@ namespace PowerLoop
     using System.IO;
     using System.Windows;
     using Microsoft.Extensions.DependencyInjection;
+    using MudBlazor.Services;
     using PowerLoop.Play;
+    using PowerLoop.Settings;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml.
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly PlayViewModel playViewModel;
+        private readonly string virtualHost;
 
         public MainWindow(ServiceProvider serviceProvider)
         {
@@ -27,9 +29,13 @@ namespace PowerLoop
             // Set webview service provider
             this.WebView.Services = serviceProvider;
 
-            // Set the fake https name for the item
-            this.playViewModel = serviceProvider.GetRequiredService<PlayViewModel>();
-            this.playViewModel.Cycling += this.PlayViewModel_Cycling;
+            // Register the webview2 cycle to the play view model cycling
+            // This enables use of local files by setting a virtual host name for the folder path
+            var playViewModel = serviceProvider.GetRequiredService<PlayViewModel>();
+            playViewModel.Cycling += this.PlayViewModel_Cycling;
+
+            var config = serviceProvider.GetRequiredService<Config>();
+            this.virtualHost = config.VirtualHost;
 
             this.DataContext = serviceProvider.GetRequiredService<MainWindowViewModel>();
         }
@@ -40,9 +46,10 @@ namespace PowerLoop
             FileInfo itemFile = new (item.Path);
             var folder = itemFile.DirectoryName ?? itemFile.FullName;
 
+            // Set the fake https name for the item
             // Set webview access permissions for local files
             this.WebView.WebView.CoreWebView2.SetVirtualHostNameToFolderMapping(
-                "local-powerloop",
+                this.virtualHost,
                 folder,
                 Microsoft.Web.WebView2.Core.CoreWebView2HostResourceAccessKind.Allow);
 

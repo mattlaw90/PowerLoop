@@ -10,6 +10,6 @@ namespace PowerLoop.Settings
 
         public string LogPath { get; set; }
 
-        public string MediaPath { get; set; }
+        public string VirtualHost { get; set; }
     }
 }
