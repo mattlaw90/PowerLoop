@@ -55,7 +55,7 @@ namespace PowerLoop
             // Add Mud
             services.AddMudServices(c =>
             {
-                c.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomRight;
+                c.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopRight;
                 c.SnackbarConfiguration.PreventDuplicates = false;
                 c.SnackbarConfiguration.NewestOnTop = true;
                 c.SnackbarConfiguration.ShowCloseIcon = true;

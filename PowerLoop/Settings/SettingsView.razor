@@ -1,24 +1,28 @@
 ﻿<ObservableRegion ViewModel="@this.SettingsViewModel">
-    <div class="mx-3 mt-16 pt-4">
+    <div class="mx-3 mt-16">
         <MudPaper Elevation="0" Class="p-2">
-            <MudToolBar Dense="true" DisableGutters="true">
-                <MudText Typo="Typo.h5">Settings</MudText>
-                <MudTooltip Text="@this.Config.AppSettingsPath" Placement="Placement.Right" Class="ml-2">
-                    <MudIcon Icon="@Icons.Material.Filled.Info" />
-                </MudTooltip>
-            </MudToolBar>
-            <MudToolBar Class="mt-2" Dense="true" DisableGutters="true">
-                <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Size="Size.Small" Class="mr-3"
-                           OnClick="@this.SettingsViewModel.OnSave">Save</MudButton>
-                <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small"
-                           OnClick="@this.OnAdd">Add</MudButton>
-            </MudToolBar>
-            <MudGrid Class="mt-2">
+            <MudGrid Spacing="1">
+                <MudItem xs="12">
+                    <MudToolBar Dense="true" DisableGutters="true">
+                        <MudText Typo="Typo.h5">Settings</MudText>
+                        <MudTooltip Text="@this.Config.AppSettingsPath" Placement="Placement.Right" Class="ml-2">
+                            <MudIcon Icon="@Icons.Material.Filled.Info" Color="Color.Info"/>
+                        </MudTooltip>
+                    </MudToolBar>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudToolBar Dense="true" DisableGutters="true">
+                        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Size="Size.Small" Class="mr-3"
+                                   OnClick="@this.SettingsViewModel.OnSave">Save</MudButton>
+                        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small"
+                                   OnClick="@this.OnAdd">Add</MudButton>
+                    </MudToolBar>
+                </MudItem>
                 <MudItem xs="4">
                     <MudNumericField @bind-Value="this.SettingsViewModel.DefaultInterval" Label="Loop Interval" Variant="Variant.Outlined" Min="0" FullWidth="false" Class="interval-input" />
                 </MudItem>
                 <MudItem xs="12">
-                    <MudDataGrid T="LoopItem" Items="@this.SettingsViewModel.LoopItems.OrderBy(i => i.Order)" Dense=true Bordered=true Class="mt-2"
+                    <MudDataGrid T="LoopItem" Items="@this.SettingsViewModel.LoopItems.OrderBy(i => i.Order)" Dense=true Bordered=true
                                  ColumnResizeMode="ResizeMode.Column">
                         <ColGroup>
                             <col style="width: 20px;" />
