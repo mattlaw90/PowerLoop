@@ -1,0 +1,25 @@
+﻿<ObservableRegion ViewModel="@this.PlayViewModel">
+    @if (this.PlayViewModel.IsPlaying && this.PlayViewModel.CurrentItem is LoopItem li)
+    {
+        @if (li.Type == LoopItemType.Text)
+        {
+            <MudPaper Class="d-flex flex-grow-1 gap-4">
+                <MudText Class="loop-text align-self-center flex-1">@li.Path</MudText>
+            </MudPaper>            
+        }
+        else if (li.Type == LoopItemType.Image)
+        {
+            @*<img src="data:image/bmp;base64, @(this.PlayViewModel.MediaBase64)" />*@
+            @*<img src="@li.Path" />*@
+            <img src="@($"https://local-powerloop/{li.FileName}")" />
+        }
+        else if (li.Type == LoopItemType.Web)
+        {
+            <iframe src="@li.Path"></iframe>
+        }
+        else if (li.Type == LoopItemType.Video)
+        {
+            <video src="@($"https://local-powerloop/{li.FileName}")" type="video/mp4" autoplay loop />
+        }
+    }
+</ObservableRegion>
