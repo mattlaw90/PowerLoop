@@ -12,10 +12,9 @@ namespace PowerLoop.Settings.Queries
         {
             var dialog = new OpenFileDialog
             {
-                Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif|MP4 Files (*.mp4)|*.mp4",
+                Filter = "Media Files (*.jpeg, *.png, *.jpg, *.gif, *.mp4)|*.jpeg; *.png; *.jpg; *.gif; *.mp4",
             };
 
-            dialog.InitialDirectory = initialPath ?? dialog.InitialDirectory;
             bool? result = dialog.ShowDialog();
 
             if (result == true)

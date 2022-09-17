@@ -15,7 +15,7 @@ namespace PowerLoop.Settings
         public LoopItemType Type { get; set; }
 
         /// <summary>
-        /// Gets or sets the path to the item - web or file path.
+        /// Gets or sets the path to the item - web or path.
         /// </summary>
         public string Path { get; set; }
 
@@ -30,6 +30,11 @@ namespace PowerLoop.Settings
         public int Length { get; set; }
 
         /// <summary>
+        /// Gets or sets the file name only.
+        /// </summary>
+        public string FileName { get; set; }
+
+        /// <summary>
         /// Gets a value indicating whether the item is a media type - image or video.
         /// </summary>
         public bool IsMedia => this.Type == LoopItemType.Image || this.Type == LoopItemType.Video;
@@ -42,12 +47,12 @@ namespace PowerLoop.Settings
         /// <returns>A new <see cref="LoopItem"/>.</returns>
         public static LoopItem NewFrom(LoopItem? loopItem, IEnumerable<LoopItem> existingItems)
         {
-            // Return a new item with a max order, or 1 if there aren't any existing
+            // Return a new item with a max order + 1, or 1 if there aren't any existing
             if (loopItem == null)
             {
                 return new LoopItem()
                 {
-                    Order = existingItems.MaxOrder(),
+                    Order = existingItems.NewOrder(),
                 };
             }
 

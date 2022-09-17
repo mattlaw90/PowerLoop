@@ -9,15 +9,17 @@
         }
         else if (li.Type == LoopItemType.Image)
         {
-            <img src="@li.Path" />
+            @*<img src="data:image/bmp;base64, @(this.PlayViewModel.MediaBase64)" />*@
+            @*<img src="@li.Path" />*@
+            <img src="@($"https://local-powerloop/{li.FileName}")" />
         }
         else if (li.Type == LoopItemType.Web)
         {
-            <iframe src=@li.Path></iframe>
+            <iframe src="@li.Path"></iframe>
         }
         else if (li.Type == LoopItemType.Video)
         {
-            <video src="@li.Path" autoplay="autoplay" loop="loop"/>
+            <video src="@($"https://local-powerloop/{li.FileName}")" type="video/mp4" autoplay loop />
         }
     }
 </ObservableRegion>

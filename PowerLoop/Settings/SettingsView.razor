@@ -18,7 +18,7 @@
                     <MudNumericField @bind-Value="this.SettingsViewModel.DefaultInterval" Label="Loop Interval" Variant="Variant.Outlined" Min="0" FullWidth="false" Class="interval-input" />
                 </MudItem>
                 <MudItem xs="12">
-                    <MudDataGrid T="LoopItem" Items="@this.SettingsViewModel.LoopItems" Dense=true Bordered=true Class="mt-2"
+                    <MudDataGrid T="LoopItem" Items="@this.SettingsViewModel.LoopItems.OrderBy(i => i.Order)" Dense=true Bordered=true Class="mt-2"
                                  ColumnResizeMode="ResizeMode.Column">
                         <ColGroup>
                             <col style="width: 20px;" />

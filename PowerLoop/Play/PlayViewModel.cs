@@ -7,6 +7,7 @@ namespace PowerLoop.Play
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.IO;
     using System.Linq;
     using System.Windows.Input;
     using System.Windows.Threading;
@@ -28,6 +29,8 @@ namespace PowerLoop.Play
 
         /// <inheritdoc/>
         public event Action<string, Severity> Notified;
+
+        public event Action<LoopItem> Cycling;
 
         public PlayViewModel(GetSettings getSettings)
         {
@@ -59,8 +62,8 @@ namespace PowerLoop.Play
             // If the timer is not already playing, start it
             if (this.timer != null && !this.timer.IsEnabled)
             {
-                // Set first item
-                this.CurrentItem = this.Items[0];
+                // Cycle once to set the first item
+                this.Cycle(this, new EventArgs());
 
                 // Start
                 this.IsPlaying = true;
@@ -107,6 +110,11 @@ namespace PowerLoop.Play
             // Change the interval depending on length of item
             // Item length is calculated on settings config
             this.timer.Interval = new System.TimeSpan(0, 0, Math.Max(this.appSettings.DefaultInterval, nextItem.Length));
+
+            if (nextItem.IsMedia)
+            {
+                this.Cycling?.Invoke(nextItem);
+            }
 
             this.CurrentItem = nextItem;
         }
