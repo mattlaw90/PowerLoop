@@ -10,7 +10,7 @@ namespace PowerLoop.Logging
     using PowerLoop.Settings;
     using PowerLoop.Shared;
 
-    public class AppLogger : INotifier
+    public class AppLogger : INotifier, IAppLogger
     {
         private readonly Config config;
 
@@ -26,7 +26,7 @@ namespace PowerLoop.Logging
         {
             // Create log file if doesn't exist
             // Create the PowerLoop folder if it doesn't already exist
-            FileInfo file = new (this.config.AppSettingsPath);
+            FileInfo file = new(this.config.AppSettingsPath);
             file?.Directory?.Create();
 
             // Add to log file

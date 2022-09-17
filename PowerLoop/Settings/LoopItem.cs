@@ -7,7 +7,7 @@ namespace PowerLoop.Settings
     using System.Collections.Generic;
     using System.Linq;
 
-    public class LoopItem
+    public class LoopItem : ILoopItem
     {
         /// <summary>
         /// Gets or sets the type of the loop item.

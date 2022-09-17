@@ -6,7 +6,7 @@ namespace PowerLoop.Settings
 {
     using System.Collections.Generic;
 
-    public class ValidationResult
+    public class ValidationResult : IValidationResult
     {
         public bool IsValid { get; set; } = true;
 

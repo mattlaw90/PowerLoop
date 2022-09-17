@@ -7,7 +7,6 @@ namespace PowerLoop.Play
     using System;
     using System.Collections.Generic;
     using System.Data;
-    using System.IO;
     using System.Linq;
     using System.Windows.Input;
     using System.Windows.Threading;
@@ -17,7 +16,7 @@ namespace PowerLoop.Play
     using PowerLoop.Settings.Queries;
     using PowerLoop.Shared;
 
-    public class PlayViewModel : ObservableObject, INotifier
+    public class PlayViewModel : ObservableObject, INotifier, IPlayViewModel
     {
         private readonly GetSettings getSettings;
         private DispatcherTimer timer;

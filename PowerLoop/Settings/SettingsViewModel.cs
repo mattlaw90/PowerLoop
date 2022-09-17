@@ -13,7 +13,7 @@ namespace PowerLoop.Settings
     using PowerLoop.Settings.Queries;
     using PowerLoop.Shared;
 
-    public class SettingsViewModel : ObservableObject, INotifier
+    public class SettingsViewModel : ObservableObject, INotifier, ISettingsViewModel
     {
         private readonly GetSettings getSettings;
         private readonly SaveSettings saveSettings;
