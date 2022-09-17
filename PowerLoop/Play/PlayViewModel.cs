@@ -62,6 +62,9 @@ namespace PowerLoop.Play
             // If the timer is not already playing, start it
             if (this.timer != null && !this.timer.IsEnabled)
             {
+                // Deselect any existing item
+                this.CurrentItem = null;
+
                 // Cycle once to set the first item
                 this.Cycle(this, new EventArgs());
 
