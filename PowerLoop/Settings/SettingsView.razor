@@ -5,9 +5,13 @@
                 <MudItem xs="12">
                     <MudToolBar Dense="true" DisableGutters="true">
                         <MudText Typo="Typo.h5">Settings</MudText>
-                        <MudTooltip Text="@this.Config.AppSettingsPath" Placement="Placement.Right" Class="ml-2">
-                            <MudIcon Icon="@Icons.Material.Filled.Info" Color="Color.Info"/>
-                        </MudTooltip>
+                        <MudIconButton Icon="@Icons.Material.Filled.Info" Color="Color.Info"
+                                       OnClick="@(() => this.pathDisplayOpen = !this.pathDisplayOpen)"/>
+                        <MudPaper Elevation="0">
+                            <MudPopover Open="@this.pathDisplayOpen" AnchorOrigin="Origin.TopRight" Class="pa-4">
+                                <MudText>@this.Config.AppSettingsPath</MudText>
+                            </MudPopover>
+                        </MudPaper>
                     </MudToolBar>
                 </MudItem>
                 <MudItem xs="12">
