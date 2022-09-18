@@ -2,11 +2,11 @@
 // Copyright (c) Matt Law. All rights reserved.
 // </copyright>
 
-namespace PowerLoop.Settings
+namespace PowerLoop.Settings.Models
 {
     using System.Collections.Generic;
 
-    public class ValidationResult
+    public class ValidationResult : IValidationResult
     {
         public bool IsValid { get; set; } = true;
 

@@ -5,10 +5,14 @@
 namespace PowerLoop.Play
 {
     using Microsoft.AspNetCore.Components;
+    using PowerLoop.AppConfig;
 
     public partial class PlayView
     {
         [Inject]
-        private PlayViewModel PlayViewModel { get; set; }
+        private IPlayViewModel PlayViewModel { get; set; }
+
+        [Inject]
+        private IConfig Config { get; set; }
     }
 }

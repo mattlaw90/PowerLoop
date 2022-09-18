@@ -7,6 +7,7 @@ namespace PowerLoop.Settings
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Components;
     using MudBlazor;
+    using PowerLoop.Settings.Models;
     using PowerLoop.Settings.Queries;
 
     public partial class LoopItemDialog
@@ -17,20 +18,20 @@ namespace PowerLoop.Settings
         private ISnackbar Snackbar { get; set; }
 
         [Inject]
-        private BrowseFile BrowseFile { get; set; }
+        private IBrowseFile BrowseFile { get; set; }
 
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }
 
         [Parameter]
-        public LoopItem? LoopItem { get; set; }
+        public ILoopItem? Item { get; set; }
 
         [Parameter]
-        public List<LoopItem> ExistingItems { get; set; }
+        public List<ILoopItem> ExistingItems { get; set; }
 
         protected override void OnParametersSet()
         {
-            this.localLoopItem = LoopItem.NewFrom(this.LoopItem, this.ExistingItems);
+            this.localLoopItem = LoopItem.NewFrom(this.Item, this.ExistingItems);
         }
 
         private void Submit()

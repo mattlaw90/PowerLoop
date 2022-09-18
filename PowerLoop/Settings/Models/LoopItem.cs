@@ -2,12 +2,12 @@
 // Copyright (c) Matt Law. All rights reserved.
 // </copyright>
 
-namespace PowerLoop.Settings
+namespace PowerLoop.Settings.Models
 {
     using System.Collections.Generic;
     using System.Linq;
 
-    public class LoopItem
+    public class LoopItem : ILoopItem
     {
         /// <summary>
         /// Gets or sets the type of the loop item.
@@ -45,7 +45,7 @@ namespace PowerLoop.Settings
         /// <param name="loopItem">The optional <see cref="LoopItem"/> to initialise values from.</param>
         /// <param name="existingItems">The list of existing items.</param>
         /// <returns>A new <see cref="LoopItem"/>.</returns>
-        public static LoopItem NewFrom(LoopItem? loopItem, IEnumerable<LoopItem> existingItems)
+        public static LoopItem NewFrom(ILoopItem? loopItem, IEnumerable<ILoopItem> existingItems)
         {
             // Return a new item with a max order + 1, or 1 if there aren't any existing
             if (loopItem == null)
@@ -70,7 +70,7 @@ namespace PowerLoop.Settings
         /// Copies property values from the given <see cref="LoopItem"/>.
         /// </summary>
         /// <param name="loopItem">The <see cref="LoopItem"/> to copy from.</param>
-        public void CopyFrom(LoopItem? loopItem)
+        public void CopyFrom(ILoopItem? loopItem)
         {
             if (loopItem != null)
             {
@@ -86,7 +86,7 @@ namespace PowerLoop.Settings
         /// </summary>
         /// <param name="existingItems">The existing items.</param>
         /// <returns>A <see cref="ValidationResult"/>.</returns>
-        public ValidationResult IsValid(List<LoopItem> existingItems)
+        public ValidationResult IsValid(List<ILoopItem> existingItems)
         {
             var validationResult = new ValidationResult();
 

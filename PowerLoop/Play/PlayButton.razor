@@ -1,5 +1,5 @@
-﻿@inject MainWindowViewModel mainWindowViewModel
-@inject PlayViewModel playViewModel
+﻿@inject IMainWindowViewModel mainWindowViewModel
+@inject IPlayViewModel playViewModel
 
 <ObservableRegion ViewModel="@this.playViewModel">
     @if (!this.playViewModel.IsPlaying)
@@ -16,7 +16,9 @@
 @code {
     private void OnPlay()
     {
-        this.mainWindowViewModel.OnPlay();
-        this.playViewModel.Start();
+        if (this.playViewModel.TryStart())
+        {
+            this.mainWindowViewModel.OnPlay();
+        }
     }
 }

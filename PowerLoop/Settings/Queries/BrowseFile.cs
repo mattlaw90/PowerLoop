@@ -6,7 +6,7 @@ namespace PowerLoop.Settings.Queries
 {
     using Microsoft.Win32;
 
-    public class BrowseFile
+    public class BrowseFile : IBrowseFile
     {
         public string? Execute(string? initialPath = null)
         {

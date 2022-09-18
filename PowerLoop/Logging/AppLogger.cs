@@ -7,17 +7,16 @@ namespace PowerLoop.Logging
     using System;
     using System.IO;
     using MudBlazor;
-    using PowerLoop.Settings;
-    using PowerLoop.Shared;
+    using PowerLoop.AppConfig;
 
-    public class AppLogger : INotifier
+    public class AppLogger : IAppLogger
     {
-        private readonly Config config;
+        private readonly IConfig config;
 
         /// <inheritdoc/>
         public event Action<string, Severity> Notified;
 
-        public AppLogger(Config config)
+        public AppLogger(IConfig config)
         {
             this.config = config;
         }

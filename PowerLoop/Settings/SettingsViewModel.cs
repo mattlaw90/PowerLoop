@@ -10,19 +10,19 @@ namespace PowerLoop.Settings
     using CommunityToolkit.Mvvm.ComponentModel;
     using MudBlazor;
     using PowerLoop.Settings.Commands;
+    using PowerLoop.Settings.Models;
     using PowerLoop.Settings.Queries;
-    using PowerLoop.Shared;
 
-    public class SettingsViewModel : ObservableObject, INotifier
+    public class SettingsViewModel : ObservableObject, ISettingsViewModel
     {
-        private readonly GetSettings getSettings;
-        private readonly SaveSettings saveSettings;
-        private AppSettings appSettings;
+        private readonly IGetSettings getSettings;
+        private readonly ISaveSettings saveSettings;
+        private IAppSettings appSettings;
         private int defaultInterval;
 
         public SettingsViewModel(
-            GetSettings getSettings,
-            SaveSettings saveSettings)
+            IGetSettings getSettings,
+            ISaveSettings saveSettings)
         {
             this.getSettings = getSettings;
             this.saveSettings = saveSettings;
@@ -30,7 +30,7 @@ namespace PowerLoop.Settings
 
         public event Action<string, Severity> Notified;
 
-        public List<LoopItem> LoopItems { get; } = new List<LoopItem>();
+        public List<ILoopItem> LoopItems { get; } = new List<ILoopItem>();
 
         public int DefaultInterval { get => this.defaultInterval; set => this.SetProperty(ref this.defaultInterval, value); }
 
@@ -69,12 +69,12 @@ namespace PowerLoop.Settings
             this.Notified?.Invoke($"Settings saved in: {path}", Severity.Success);
         }
 
-        public void OnAdd(LoopItem loopItem)
+        public void OnAdd(ILoopItem loopItem)
         {
             this.LoopItems.Add(loopItem);
         }
 
-        public void OnDelete(LoopItem loopItem)
+        public void OnDelete(ILoopItem loopItem)
         {
             this.LoopItems.Remove(loopItem);
         }

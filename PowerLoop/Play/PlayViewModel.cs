@@ -7,45 +7,48 @@ namespace PowerLoop.Play
     using System;
     using System.Collections.Generic;
     using System.Data;
-    using System.IO;
     using System.Linq;
     using System.Windows.Input;
     using System.Windows.Threading;
     using CommunityToolkit.Mvvm.ComponentModel;
     using MudBlazor;
-    using PowerLoop.Settings;
+    using PowerLoop.AppConfig;
+    using PowerLoop.Settings.Models;
     using PowerLoop.Settings.Queries;
-    using PowerLoop.Shared;
 
-    public class PlayViewModel : ObservableObject, INotifier
+    public class PlayViewModel : ObservableObject, IPlayViewModel
     {
-        private readonly GetSettings getSettings;
+        private readonly IGetSettings getSettings;
+        private readonly ISleepPreventer sleepPreventer;
         private DispatcherTimer timer;
         private int minOrder;
         private int maxOrder;
-        private LoopItem currentItem;
+        private ILoopItem currentItem;
         private bool isPlaying;
         private AppSettings appSettings;
 
         /// <inheritdoc/>
         public event Action<string, Severity> Notified;
 
-        public event Action<LoopItem> Cycling;
+        public event Action<ILoopItem> Cycling;
 
-        public PlayViewModel(GetSettings getSettings)
+        public PlayViewModel(
+            IGetSettings getSettings,
+            ISleepPreventer sleepPreventer)
         {
             this.getSettings = getSettings;
+            this.sleepPreventer = sleepPreventer;
         }
 
         /// <summary>
         /// Gets or sets the current item being displayed.
         /// </summary>
-        public LoopItem CurrentItem { get => this.currentItem; set => this.SetProperty(ref this.currentItem, value); }
+        public ILoopItem CurrentItem { get => this.currentItem; set => this.SetProperty(ref this.currentItem, value); }
 
         /// <summary>
         /// Gets or sets the collection of items.
         /// </summary>
-        public List<LoopItem> Items { get; set; }
+        public List<ILoopItem> Items { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the timer is playing.
@@ -55,20 +58,41 @@ namespace PowerLoop.Play
         /// <summary>
         /// Get the settings, set the first item and start the timer.
         /// </summary>
-        public void Start()
+        public bool TryStart()
         {
+            var started = false;
+
             this.GetSettings();
 
-            // If the timer is not already playing, start it
-            if (this.timer != null && !this.timer.IsEnabled)
+            if (this.appSettings != null)
             {
-                // Cycle once to set the first item
-                this.Cycle(this, new EventArgs());
+                if (!this.appSettings.LoopItems.Any())
+                {
+                    this.Notified?.Invoke($"No items to loop through.", Severity.Warning);
+                }
+                else
+                {
+                    // If the timer is not already playing, start it
+                    if (this.timer != null && !this.timer.IsEnabled)
+                    {
+                        // Deselect any existing item
+                        this.CurrentItem = null;
 
-                // Start
-                this.IsPlaying = true;
-                this.timer.Start();
+                        // Cycle once to set the first item
+                        this.Cycle(this, new EventArgs());
+
+                        // Start
+                        this.IsPlaying = true;
+                        this.timer.Start();
+
+                        this.sleepPreventer.Start();
+                    }
+
+                    started = true;
+                }
             }
+
+            return started;
         }
 
         /// <summary>
@@ -79,6 +103,7 @@ namespace PowerLoop.Play
             // Stop the timer
             this.IsPlaying = false;
             this.timer.Stop();
+            this.sleepPreventer.Stop();
         }
 
         public bool OnTryStop(KeyEventArgs? args)
@@ -138,8 +163,9 @@ namespace PowerLoop.Play
 
                 // Calc the min and max order for looping
                 var orders = this.Items.Select(item => item.Order);
-                this.maxOrder = orders.Max();
-                this.minOrder = orders.Min();
+                var hasItems = orders.Any();
+                this.maxOrder = hasItems ? orders.Max() : 0;
+                this.minOrder = hasItems ? orders.Min() : 0;
             }
         }
     }

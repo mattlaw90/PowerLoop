@@ -5,16 +5,19 @@
 namespace PowerLoop
 {
     using System;
+    using System.Collections;
     using System.IO;
     using System.Windows;
     using Microsoft.Extensions.DependencyInjection;
     using MudBlazor;
     using MudBlazor.Services;
+    using PowerLoop.AppConfig;
     using PowerLoop.Logging;
     using PowerLoop.Play;
     using PowerLoop.Settings;
     using PowerLoop.Settings.Commands;
     using PowerLoop.Settings.Queries;
+    using PowerLoop.Shared;
 
     /// <summary>
     /// Interaction logic for App.xaml.
@@ -37,7 +40,7 @@ namespace PowerLoop
             services.AddBlazorWebViewDeveloperTools();
 
             // Add system config
-            services.AddScoped(s => new Config()
+            services.AddScoped<IConfig>(s => new Config()
             {
                 AppSettingsPath = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -49,16 +52,13 @@ namespace PowerLoop
                     "PowerLoop",
                     "log.txt"),
 
-                MediaPath = Path.Combine(
-                    System.AppDomain.CurrentDomain.BaseDirectory,
-                    "wwwroot",
-                    "images"),
+                VirtualHost = "my-powerloop",
             });
 
             // Add Mud
             services.AddMudServices(c =>
             {
-                c.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomRight;
+                c.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopRight;
                 c.SnackbarConfiguration.PreventDuplicates = false;
                 c.SnackbarConfiguration.NewestOnTop = true;
                 c.SnackbarConfiguration.ShowCloseIcon = true;
@@ -69,17 +69,26 @@ namespace PowerLoop
             });
 
             // Add queries/commands
-            services.AddScoped<BrowseFile>();
-            services.AddScoped<GetSettings>();
-            services.AddScoped<SaveSettings>();
+            services.AddSingleton<IBrowseFile, BrowseFile>();
+            services.AddSingleton<IGetSettings, GetSettings>();
+            services.AddSingleton<ISaveSettings, SaveSettings>();
 
             // Add ViewModels as singletons - no need for more than one of each
-            services.AddSingleton<MainWindowViewModel>();
-            services.AddSingleton<PlayViewModel>();
-            services.AddSingleton<SettingsViewModel>();
+            services.AddSingleton<IMainWindowViewModel, MainWindowViewModel>();
+            services.AddSingleton<IPlayViewModel, PlayViewModel>();
+            services.AddSingleton<ISettingsViewModel, SettingsViewModel>();
 
             // Add AppLogger once
-            services.AddSingleton<AppLogger>();
+            services.AddSingleton<IAppLogger, AppLogger>();
+
+            // Add the SleepPreventer
+            services.AddSingleton<ISleepPreventer, SleepPreventer>();
+
+            // Add individual notifiers
+            services.AddSingleton<INotifier>(s => s.GetRequiredService<IAppLogger>());
+            services.AddSingleton<INotifier>(s => s.GetRequiredService<IPlayViewModel>());
+            services.AddSingleton<INotifier>(s => s.GetRequiredService<ISettingsViewModel>());
+            services.AddSingleton<INotifier>(s => s.GetRequiredService<IGetSettings>());
 
             this.serviceProvider = services.BuildServiceProvider();
         }
