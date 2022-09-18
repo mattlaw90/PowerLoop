@@ -5,6 +5,7 @@
 namespace PowerLoop
 {
     using System;
+    using System.Collections;
     using System.IO;
     using System.Windows;
     using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,7 @@ namespace PowerLoop
     using PowerLoop.Settings;
     using PowerLoop.Settings.Commands;
     using PowerLoop.Settings.Queries;
+    using PowerLoop.Shared;
 
     /// <summary>
     /// Interaction logic for App.xaml.
@@ -67,9 +69,9 @@ namespace PowerLoop
             });
 
             // Add queries/commands
-            services.AddScoped<IBrowseFile, BrowseFile>();
-            services.AddScoped<IGetSettings, GetSettings>();
-            services.AddScoped<ISaveSettings, SaveSettings>();
+            services.AddSingleton<IBrowseFile, BrowseFile>();
+            services.AddSingleton<IGetSettings, GetSettings>();
+            services.AddSingleton<ISaveSettings, SaveSettings>();
 
             // Add ViewModels as singletons - no need for more than one of each
             services.AddSingleton<IMainWindowViewModel, MainWindowViewModel>();
@@ -81,6 +83,12 @@ namespace PowerLoop
 
             // Add the SleepPreventer
             services.AddSingleton<ISleepPreventer, SleepPreventer>();
+
+            // Add individual notifiers
+            services.AddSingleton<INotifier>(s => s.GetRequiredService<IAppLogger>());
+            services.AddSingleton<INotifier>(s => s.GetRequiredService<IPlayViewModel>());
+            services.AddSingleton<INotifier>(s => s.GetRequiredService<ISettingsViewModel>());
+            services.AddSingleton<INotifier>(s => s.GetRequiredService<IGetSettings>());
 
             this.serviceProvider = services.BuildServiceProvider();
         }

@@ -15,9 +15,8 @@ namespace PowerLoop.Play
     using PowerLoop.AppConfig;
     using PowerLoop.Settings.Models;
     using PowerLoop.Settings.Queries;
-    using PowerLoop.Shared;
 
-    public class PlayViewModel : ObservableObject, INotifier, IPlayViewModel
+    public class PlayViewModel : ObservableObject, IPlayViewModel
     {
         private readonly IGetSettings getSettings;
         private readonly ISleepPreventer sleepPreventer;
@@ -59,25 +58,41 @@ namespace PowerLoop.Play
         /// <summary>
         /// Get the settings, set the first item and start the timer.
         /// </summary>
-        public void Start()
+        public bool TryStart()
         {
+            var started = false;
+
             this.GetSettings();
 
-            // If the timer is not already playing, start it
-            if (this.timer != null && !this.timer.IsEnabled)
+            if (this.appSettings != null)
             {
-                // Deselect any existing item
-                this.CurrentItem = null;
+                if (!this.appSettings.LoopItems.Any())
+                {
+                    this.Notified?.Invoke($"No items to loop through.", Severity.Warning);
+                }
+                else
+                {
+                    // If the timer is not already playing, start it
+                    if (this.timer != null && !this.timer.IsEnabled)
+                    {
+                        // Deselect any existing item
+                        this.CurrentItem = null;
 
-                // Cycle once to set the first item
-                this.Cycle(this, new EventArgs());
+                        // Cycle once to set the first item
+                        this.Cycle(this, new EventArgs());
 
-                // Start
-                this.IsPlaying = true;
-                this.timer.Start();
+                        // Start
+                        this.IsPlaying = true;
+                        this.timer.Start();
 
-                this.sleepPreventer.Start();
+                        this.sleepPreventer.Start();
+                    }
+
+                    started = true;
+                }
             }
+
+            return started;
         }
 
         /// <summary>
@@ -148,8 +163,9 @@ namespace PowerLoop.Play
 
                 // Calc the min and max order for looping
                 var orders = this.Items.Select(item => item.Order);
-                this.maxOrder = orders.Max();
-                this.minOrder = orders.Min();
+                var hasItems = orders.Any();
+                this.maxOrder = hasItems ? orders.Max() : 0;
+                this.minOrder = hasItems ? orders.Min() : 0;
             }
         }
     }

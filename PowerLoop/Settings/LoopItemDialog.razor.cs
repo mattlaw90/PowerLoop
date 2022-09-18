@@ -24,14 +24,14 @@ namespace PowerLoop.Settings
         MudDialogInstance MudDialog { get; set; }
 
         [Parameter]
-        public LoopItem? LoopItem { get; set; }
+        public ILoopItem? Item { get; set; }
 
         [Parameter]
-        public List<LoopItem> ExistingItems { get; set; }
+        public List<ILoopItem> ExistingItems { get; set; }
 
         protected override void OnParametersSet()
         {
-            this.localLoopItem = LoopItem.NewFrom(this.LoopItem, this.ExistingItems);
+            this.localLoopItem = LoopItem.NewFrom(this.Item, this.ExistingItems);
         }
 
         private void Submit()

@@ -5,11 +5,12 @@
 namespace PowerLoop.Settings.Queries
 {
     using PowerLoop.Settings.Models;
+    using PowerLoop.Shared;
 
     /// <summary>
     /// Defines the <see cref="IGetSettings"/>.
     /// </summary>
-    public interface IGetSettings
+    public interface IGetSettings : INotifier
     {
         /// <summary>
         /// Gets settings from the default save location.

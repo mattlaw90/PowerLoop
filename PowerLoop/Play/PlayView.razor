@@ -4,7 +4,7 @@
         @if (li.Type == LoopItemType.Text)
         {
             <MudPaper Class="d-flex flex-grow-1 gap-4">
-                <MudText Class="loop-text align-self-center flex-1">@li.Path</MudText>
+                <MudText Typo="Typo.h1" Class="loop-text align-self-center flex-1">@li.Path</MudText>
             </MudPaper>            
         }
         else if (li.Type == LoopItemType.Image)

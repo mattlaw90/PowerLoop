@@ -63,7 +63,7 @@ namespace PowerLoop.Settings
             // Open the dialog with existing item
             var dialogParameters = new DialogParameters
             {
-                { nameof(LoopItemDialog.LoopItem), loopItem },
+                { nameof(LoopItemDialog.Item), loopItem },
                 { nameof(LoopItemDialog.ExistingItems), this.SettingsViewModel.LoopItems },
             };
 

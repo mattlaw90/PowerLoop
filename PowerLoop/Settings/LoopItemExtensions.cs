@@ -15,7 +15,7 @@ namespace PowerLoop.Settings
         /// </summary>
         /// <param name="items">The items.</param>
         /// <returns>1 if no items.</returns>
-        public static int MaxOrder(this IEnumerable<LoopItem> items)
+        public static int MaxOrder(this IEnumerable<ILoopItem> items)
             => items.Any() ? items.Select(i => i.Order).Max() : 1;
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace PowerLoop.Settings
         /// </summary>
         /// <param name="items">The items.</param>
         /// <returns>1 if no items.</returns>
-        public static int MinOrder(this IEnumerable<LoopItem> items)
+        public static int MinOrder(this IEnumerable<ILoopItem> items)
             => items.Any() ? items.Select(i => i.Order).Min() : 1;
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace PowerLoop.Settings
         /// </summary>
         /// <param name="items">The items.</param>
         /// <returns>1 if no items.</returns>
-        public static int NewOrder(this IEnumerable<LoopItem> items)
+        public static int NewOrder(this IEnumerable<ILoopItem> items)
             => items.Any() ? items.Select(i => i.Order).Max() + 1 : 1;
     }
 }

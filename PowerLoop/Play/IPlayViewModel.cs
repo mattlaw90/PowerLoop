@@ -10,8 +10,9 @@ namespace PowerLoop.Play
     using System.Windows.Input;
     using MudBlazor;
     using PowerLoop.Settings.Models;
+    using PowerLoop.Shared;
 
-    public interface IPlayViewModel : INotifyPropertyChanged
+    public interface IPlayViewModel : INotifyPropertyChanged, INotifier
     {
         ILoopItem CurrentItem { get; set; }
 
@@ -25,7 +26,7 @@ namespace PowerLoop.Play
 
         bool OnTryStop(KeyEventArgs? args);
 
-        void Start();
+        bool TryStart();
 
         void Stop();
     }

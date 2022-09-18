@@ -16,7 +16,9 @@
 @code {
     private void OnPlay()
     {
-        this.mainWindowViewModel.OnPlay();
-        this.playViewModel.Start();
+        if (this.playViewModel.TryStart())
+        {
+            this.mainWindowViewModel.OnPlay();
+        }
     }
 }

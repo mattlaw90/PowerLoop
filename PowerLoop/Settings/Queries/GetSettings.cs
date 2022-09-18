@@ -7,6 +7,7 @@ namespace PowerLoop.Settings.Queries
     using System;
     using System.IO;
     using System.Text.Json;
+    using MudBlazor;
     using PowerLoop.AppConfig;
     using PowerLoop.Logging;
     using PowerLoop.Settings.Models;
@@ -22,6 +23,8 @@ namespace PowerLoop.Settings.Queries
             this.appLogger = appLogger;
         }
 
+        public event Action<string, Severity> Notified;
+
         public IAppSettings? Execute()
         {
             try
@@ -33,8 +36,14 @@ namespace PowerLoop.Settings.Queries
 
                 return appSettings;
             }
+            catch (FileNotFoundException ex)
+            {
+                // Warn on file not found
+                this.Notified?.Invoke(ex.Message, Severity.Warning);
+            }
             catch (Exception ex)
             {
+                // Log any other exception
                 this.appLogger.Log(ex);
             }
 

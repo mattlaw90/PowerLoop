@@ -5,11 +5,9 @@
 namespace PowerLoop.Shared
 {
     using System;
+    using System.Collections.Generic;
     using Microsoft.AspNetCore.Components;
     using MudBlazor;
-    using PowerLoop.Logging;
-    using PowerLoop.Play;
-    using PowerLoop.Settings;
 
     public partial class SnackBus : IDisposable
     {
@@ -17,32 +15,38 @@ namespace PowerLoop.Shared
         private ISnackbar Snackbar { get; set; }
 
         [Inject]
-        private IAppLogger Logger { get; set; }
-
-        [Inject]
-        private IPlayViewModel PlayViewModel { get; set; }
-
-        [Inject]
-        private ISettingsViewModel SettingsViewModel { get; set; }
+        private IEnumerable<INotifier> Notifiers { get; set; }
 
         /// <inheritdoc/>
         public void Dispose()
         {
-            this.Logger.Notified -= this.Notify;
-            this.PlayViewModel.Notified -= this.Notify;
-            this.SettingsViewModel.Notified -= this.Notify;
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
+        // Unsubscribe from each notifier.
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                foreach (var n in this.Notifiers)
+                {
+                    n.Notified -= this.Notify;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Subscribes to each notifiers notify event.
+        /// </summary>
         protected override void OnInitialized()
         {
-            this.Logger.Notified += this.Notify;
-            this.PlayViewModel.Notified += this.Notify;
-            this.SettingsViewModel.Notified += this.Notify;
+            foreach (var n in this.Notifiers)
+            {
+                n.Notified += this.Notify;
+            }
         }
 
-        private void Notify(string message, Severity severity)
-        {
-            this.Snackbar.Add(message, severity);
-        }
+        private void Notify(string message, Severity severity) => this.Snackbar.Add(message, severity);
     }
 }

@@ -23,8 +23,8 @@ namespace PowerLoop.Settings.Models
 
         LoopItemType Type { get; set; }
 
-        void CopyFrom(LoopItem? loopItem);
+        void CopyFrom(ILoopItem? loopItem);
 
-        ValidationResult IsValid(List<LoopItem> existingItems);
+        ValidationResult IsValid(List<ILoopItem> existingItems);
     }
 }
