@@ -8,9 +8,9 @@ namespace PowerLoop
     using System.IO;
     using System.Windows;
     using Microsoft.Extensions.DependencyInjection;
-    using MudBlazor.Services;
+    using PowerLoop.AppConfig;
     using PowerLoop.Play;
-    using PowerLoop.Settings;
+    using PowerLoop.Settings.Models;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml.
@@ -31,16 +31,16 @@ namespace PowerLoop
 
             // Register the webview2 cycle to the play view model cycling
             // This enables use of local files by setting a virtual host name for the folder path
-            var playViewModel = serviceProvider.GetRequiredService<PlayViewModel>();
+            var playViewModel = serviceProvider.GetRequiredService<IPlayViewModel>();
             playViewModel.Cycling += this.PlayViewModel_Cycling;
 
-            var config = serviceProvider.GetRequiredService<Config>();
+            var config = serviceProvider.GetRequiredService<IConfig>();
             this.virtualHost = config.VirtualHost;
 
-            this.DataContext = serviceProvider.GetRequiredService<MainWindowViewModel>();
+            this.DataContext = serviceProvider.GetRequiredService<IMainWindowViewModel>();
         }
 
-        private void PlayViewModel_Cycling(Settings.LoopItem item)
+        private void PlayViewModel_Cycling(ILoopItem item)
         {
             // For each media item, split the folder and file name
             FileInfo itemFile = new (item.Path);

@@ -10,6 +10,7 @@ namespace PowerLoop
     using Microsoft.Extensions.DependencyInjection;
     using MudBlazor;
     using MudBlazor.Services;
+    using PowerLoop.AppConfig;
     using PowerLoop.Logging;
     using PowerLoop.Play;
     using PowerLoop.Settings;
@@ -37,7 +38,7 @@ namespace PowerLoop
             services.AddBlazorWebViewDeveloperTools();
 
             // Add system config
-            services.AddScoped(s => new Config()
+            services.AddScoped<IConfig>(s => new Config()
             {
                 AppSettingsPath = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -66,17 +67,17 @@ namespace PowerLoop
             });
 
             // Add queries/commands
-            services.AddScoped<BrowseFile>();
-            services.AddScoped<GetSettings>();
-            services.AddScoped<SaveSettings>();
+            services.AddScoped<IBrowseFile, BrowseFile>();
+            services.AddScoped<IGetSettings, GetSettings>();
+            services.AddScoped<ISaveSettings, SaveSettings>();
 
             // Add ViewModels as singletons - no need for more than one of each
-            services.AddSingleton<MainWindowViewModel>();
-            services.AddSingleton<PlayViewModel>();
-            services.AddSingleton<SettingsViewModel>();
+            services.AddSingleton<IMainWindowViewModel, MainWindowViewModel>();
+            services.AddSingleton<IPlayViewModel, PlayViewModel>();
+            services.AddSingleton<ISettingsViewModel, SettingsViewModel>();
 
             // Add AppLogger once
-            services.AddSingleton<AppLogger>();
+            services.AddSingleton<IAppLogger, AppLogger>();
 
             this.serviceProvider = services.BuildServiceProvider();
         }

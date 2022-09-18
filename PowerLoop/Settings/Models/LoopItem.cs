@@ -2,7 +2,7 @@
 // Copyright (c) Matt Law. All rights reserved.
 // </copyright>
 
-namespace PowerLoop.Settings
+namespace PowerLoop.Settings.Models
 {
     using System.Collections.Generic;
     using System.Linq;

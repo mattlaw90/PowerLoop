@@ -1,5 +1,5 @@
 ﻿<ObservableRegion ViewModel="@this.PlayViewModel">
-    @if (this.PlayViewModel.IsPlaying && this.PlayViewModel.CurrentItem is LoopItem li)
+    @if (this.PlayViewModel.IsPlaying && this.PlayViewModel.CurrentItem is ILoopItem li)
     {
         @if (li.Type == LoopItemType.Text)
         {

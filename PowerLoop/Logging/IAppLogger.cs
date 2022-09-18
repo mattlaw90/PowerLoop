@@ -6,8 +6,9 @@ namespace PowerLoop.Logging
 {
     using System;
     using MudBlazor;
+    using PowerLoop.Shared;
 
-    public interface IAppLogger
+    public interface IAppLogger : INotifier
     {
         event Action<string, Severity> Notified;
 

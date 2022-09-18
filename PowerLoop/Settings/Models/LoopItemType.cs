@@ -2,7 +2,7 @@
 // Copyright (c) Matthew Law. All rights reserved.
 // </copyright>
 
-namespace PowerLoop.Settings
+namespace PowerLoop.Settings.Models
 {
     public enum LoopItemType
     {

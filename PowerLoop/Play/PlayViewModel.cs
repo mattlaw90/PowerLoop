@@ -12,26 +12,26 @@ namespace PowerLoop.Play
     using System.Windows.Threading;
     using CommunityToolkit.Mvvm.ComponentModel;
     using MudBlazor;
-    using PowerLoop.Settings;
+    using PowerLoop.Settings.Models;
     using PowerLoop.Settings.Queries;
     using PowerLoop.Shared;
 
     public class PlayViewModel : ObservableObject, INotifier, IPlayViewModel
     {
-        private readonly GetSettings getSettings;
+        private readonly IGetSettings getSettings;
         private DispatcherTimer timer;
         private int minOrder;
         private int maxOrder;
-        private LoopItem currentItem;
+        private ILoopItem currentItem;
         private bool isPlaying;
         private AppSettings appSettings;
 
         /// <inheritdoc/>
         public event Action<string, Severity> Notified;
 
-        public event Action<LoopItem> Cycling;
+        public event Action<ILoopItem> Cycling;
 
-        public PlayViewModel(GetSettings getSettings)
+        public PlayViewModel(IGetSettings getSettings)
         {
             this.getSettings = getSettings;
         }
@@ -39,12 +39,12 @@ namespace PowerLoop.Play
         /// <summary>
         /// Gets or sets the current item being displayed.
         /// </summary>
-        public LoopItem CurrentItem { get => this.currentItem; set => this.SetProperty(ref this.currentItem, value); }
+        public ILoopItem CurrentItem { get => this.currentItem; set => this.SetProperty(ref this.currentItem, value); }
 
         /// <summary>
         /// Gets or sets the collection of items.
         /// </summary>
-        public List<LoopItem> Items { get; set; }
+        public List<ILoopItem> Items { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the timer is playing.

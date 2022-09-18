@@ -7,14 +7,16 @@ namespace PowerLoop.Settings.Queries
     using System;
     using System.IO;
     using System.Text.Json;
+    using PowerLoop.AppConfig;
     using PowerLoop.Logging;
+    using PowerLoop.Settings.Models;
 
-    public class GetSettings
+    public class GetSettings : IGetSettings
     {
-        private readonly Config config;
-        private readonly AppLogger appLogger;
+        private readonly IConfig config;
+        private readonly IAppLogger appLogger;
 
-        public GetSettings(Config config, AppLogger appLogger)
+        public GetSettings(IConfig config, IAppLogger appLogger)
         {
             this.config = config;
             this.appLogger = appLogger;

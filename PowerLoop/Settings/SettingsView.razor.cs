@@ -7,17 +7,19 @@ namespace PowerLoop.Settings
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
     using MudBlazor;
+    using PowerLoop.AppConfig;
+    using PowerLoop.Settings.Models;
 
     public partial class SettingsView
     {
         [Inject]
-        private Config Config { get; set; }
+        private IConfig Config { get; set; }
 
         [Inject]
         private IDialogService DialogService { get; set; }
 
         [Inject]
-        private SettingsViewModel SettingsViewModel { get; set; }
+        private ISettingsViewModel SettingsViewModel { get; set; }
 
         protected override void OnAfterRender(bool firstRender)
         {
@@ -56,7 +58,7 @@ namespace PowerLoop.Settings
             }
         }
 
-        private async Task OnEdit(LoopItem loopItem)
+        private async Task OnEdit(ILoopItem loopItem)
         {
             // Open the dialog with existing item
             var dialogParameters = new DialogParameters
@@ -85,7 +87,7 @@ namespace PowerLoop.Settings
             }
         }
 
-        private async Task OnDelete(LoopItem loopItem)
+        private async Task OnDelete(ILoopItem loopItem)
         {
             // Prompt
             bool? result = await this.DialogService.ShowMessageBox(

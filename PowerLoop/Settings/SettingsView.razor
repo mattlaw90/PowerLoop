@@ -22,7 +22,7 @@
                     <MudNumericField @bind-Value="this.SettingsViewModel.DefaultInterval" Label="Loop Interval" Variant="Variant.Outlined" Min="0" FullWidth="false" Class="interval-input" />
                 </MudItem>
                 <MudItem xs="12">
-                    <MudDataGrid T="LoopItem" Items="@this.SettingsViewModel.LoopItems.OrderBy(i => i.Order)" Dense=true Bordered=true
+                    <MudDataGrid T="ILoopItem" Items="@this.SettingsViewModel.LoopItems.OrderBy(i => i.Order)" Dense=true Bordered=true
                                  ColumnResizeMode="ResizeMode.Column">
                         <ColGroup>
                             <col style="width: 20px;" />
@@ -32,15 +32,15 @@
                             <col style="width: 20px;" />
                         </ColGroup>
                         <Columns>
-                            <Column T="LoopItem" CellClass="justify-start">
+                            <Column T="ILoopItem" CellClass="justify-start">
                                 <CellTemplate>
                                     <MudIconButton Size="@Size.Small" Icon="@Icons.Outlined.Edit" OnClick="@(() => this.OnEdit(context.Item))" />
                                 </CellTemplate>
                             </Column>
-                            <Column T="LoopItem" Title="Order" Field="@nameof(LoopItem.Order)" />
-                            <Column T="LoopItem" Title="Type" Field="@nameof(LoopItem.Type)" />
-                            <Column T="LoopItem" Title="Path (Text Value)" Field="@nameof(LoopItem.Path)" />
-                            <Column T="LoopItem" CellClass="justify-end">
+                            <Column T="ILoopItem" Title="Order" Field="@nameof(ILoopItem.Order)" />
+                            <Column T="ILoopItem" Title="Type" Field="@nameof(ILoopItem.Type)" />
+                            <Column T="ILoopItem" Title="Path (Text Value)" Field="@nameof(ILoopItem.Path)" />
+                            <Column T="ILoopItem" CellClass="justify-end">
                                 <CellTemplate>
                                     <MudIconButton Size="@Size.Small" Icon="@Icons.Outlined.Delete" Color="Color.Error" OnClick="@(() => this.OnDelete(context.Item))" />
                                 </CellTemplate>

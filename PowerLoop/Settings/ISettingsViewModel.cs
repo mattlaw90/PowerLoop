@@ -6,19 +6,22 @@ namespace PowerLoop.Settings
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using MudBlazor;
+    using PowerLoop.Settings.Models;
+    using PowerLoop.Shared;
 
-    public interface ISettingsViewModel
+    public interface ISettingsViewModel : INotifier, INotifyPropertyChanged
     {
         int DefaultInterval { get; set; }
 
-        List<LoopItem> LoopItems { get; }
+        List<ILoopItem> LoopItems { get; }
 
         event Action<string, Severity> Notified;
 
-        void OnAdd(LoopItem loopItem);
+        void OnAdd(ILoopItem loopItem);
 
-        void OnDelete(LoopItem loopItem);
+        void OnDelete(ILoopItem loopItem);
 
         void OnGet();
 

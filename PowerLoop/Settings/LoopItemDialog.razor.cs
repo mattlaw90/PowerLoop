@@ -7,6 +7,7 @@ namespace PowerLoop.Settings
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Components;
     using MudBlazor;
+    using PowerLoop.Settings.Models;
     using PowerLoop.Settings.Queries;
 
     public partial class LoopItemDialog
@@ -17,7 +18,7 @@ namespace PowerLoop.Settings
         private ISnackbar Snackbar { get; set; }
 
         [Inject]
-        private BrowseFile BrowseFile { get; set; }
+        private IBrowseFile BrowseFile { get; set; }
 
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }

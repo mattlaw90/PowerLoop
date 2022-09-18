@@ -2,14 +2,14 @@
 // Copyright (c) Matt Law. All rights reserved.
 // </copyright>
 
-namespace PowerLoop.Settings
+namespace PowerLoop.Settings.Models
 {
     using System.Collections.Generic;
 
-    public class AppSettings
+    public class AppSettings : IAppSettings
     {
         public int DefaultInterval { get; set; }
 
-        public List<LoopItem> LoopItems { get; set; }
+        public List<ILoopItem> LoopItems { get; set; }
     }
 }

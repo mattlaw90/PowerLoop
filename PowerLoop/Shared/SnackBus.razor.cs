@@ -17,13 +17,13 @@ namespace PowerLoop.Shared
         private ISnackbar Snackbar { get; set; }
 
         [Inject]
-        private AppLogger Logger { get; set; }
+        private IAppLogger Logger { get; set; }
 
         [Inject]
-        private PlayViewModel PlayViewModel { get; set; }
+        private IPlayViewModel PlayViewModel { get; set; }
 
         [Inject]
-        private SettingsViewModel SettingsViewModel { get; set; }
+        private ISettingsViewModel SettingsViewModel { get; set; }
 
         /// <inheritdoc/>
         public void Dispose()

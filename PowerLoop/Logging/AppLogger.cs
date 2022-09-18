@@ -7,17 +7,16 @@ namespace PowerLoop.Logging
     using System;
     using System.IO;
     using MudBlazor;
-    using PowerLoop.Settings;
-    using PowerLoop.Shared;
+    using PowerLoop.AppConfig;
 
-    public class AppLogger : INotifier, IAppLogger
+    public class AppLogger : IAppLogger
     {
-        private readonly Config config;
+        private readonly IConfig config;
 
         /// <inheritdoc/>
         public event Action<string, Severity> Notified;
 
-        public AppLogger(Config config)
+        public AppLogger(IConfig config)
         {
             this.config = config;
         }
@@ -26,7 +25,7 @@ namespace PowerLoop.Logging
         {
             // Create log file if doesn't exist
             // Create the PowerLoop folder if it doesn't already exist
-            FileInfo file = new(this.config.AppSettingsPath);
+            FileInfo file = new (this.config.AppSettingsPath);
             file?.Directory?.Create();
 
             // Add to log file

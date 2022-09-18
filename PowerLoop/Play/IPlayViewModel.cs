@@ -6,20 +6,20 @@ namespace PowerLoop.Play
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Windows.Input;
     using MudBlazor;
-    using PowerLoop.Settings;
+    using PowerLoop.Settings.Models;
 
-    public interface IPlayViewModel
+    public interface IPlayViewModel : INotifyPropertyChanged
     {
-        LoopItem CurrentItem { get; set; }
+        ILoopItem CurrentItem { get; set; }
 
         bool IsPlaying { get; set; }
 
-        List<LoopItem> Items { get; set; }
+        List<ILoopItem> Items { get; set; }
 
-
-        event Action<LoopItem> Cycling;
+        event Action<ILoopItem> Cycling;
 
         event Action<string, Severity> Notified;
 

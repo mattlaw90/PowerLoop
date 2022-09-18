@@ -13,7 +13,7 @@ namespace PowerLoop
 
     public class MainWindowViewModel : ObservableObject, IMainWindowViewModel
     {
-        private readonly PlayViewModel playViewModel;
+        private readonly IPlayViewModel playViewModel;
         private WindowState currentWindowState = WindowState.Normal;
         private WindowStyle currentWindowStyle = WindowStyle.SingleBorderWindow;
         private ResizeMode currentResizeMode = ResizeMode.CanResize;
@@ -21,7 +21,7 @@ namespace PowerLoop
         private Visibility currentVisibility = Visibility.Visible;
         private RelayCommand<KeyEventArgs> onKeyDownCommand;
 
-        public MainWindowViewModel(PlayViewModel playViewModel)
+        public MainWindowViewModel(IPlayViewModel playViewModel)
         {
             this.playViewModel = playViewModel;
         }

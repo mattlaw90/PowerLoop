@@ -7,21 +7,19 @@ namespace PowerLoop.Settings.Commands
     using System.IO;
     using System.Linq;
     using System.Text.Json;
+    using PowerLoop.AppConfig;
+    using PowerLoop.Settings.Models;
 
-    public class SaveSettings
+    public class SaveSettings : ISaveSettings
     {
-        private readonly Config config;
+        private readonly IConfig config;
 
-        public SaveSettings(Config config)
+        public SaveSettings(IConfig config)
         {
             this.config = config;
         }
 
-        /// <summary>
-        /// Saves the settings to a file and returns the path to the file.
-        /// </summary>
-        /// <param name="settings">The settings to save.</param>
-        /// <returns>The file path.</returns>
+        /// <inheritdoc/>
         public string Execute(AppSettings settings)
         {
             // Get the file name only for media items (images and videos)
