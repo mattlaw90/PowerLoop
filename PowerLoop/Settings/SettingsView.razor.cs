@@ -12,6 +12,8 @@ namespace PowerLoop.Settings
 
     public partial class SettingsView
     {
+        private bool pathDisplayOpen;
+
         [Inject]
         private IConfig Config { get; set; }
 
