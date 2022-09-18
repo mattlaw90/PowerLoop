@@ -1,0 +1,15 @@
+﻿<MudText Color="Color.Info">@version</MudText>
+
+@code {
+    private string version;
+
+    [Inject]
+    private IGetVersion getVersion { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        this.version = this.getVersion.Execute();
+    }
+}
