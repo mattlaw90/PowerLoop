@@ -1,0 +1,20 @@
+﻿@inject IPlayViewModel playViewModel
+
+<SnackBus />
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<PlayButton />
+<PlayView />
+<ObservableRegion ViewModel="@this.playViewModel">
+    @if (!this.playViewModel.IsPlaying)
+    {
+        <div class="mt-16">
+            <SettingsView />
+        </div>
+        <div class="mt-16">
+            <VersionDisplay />
+        </div>
+    }
+</ObservableRegion>

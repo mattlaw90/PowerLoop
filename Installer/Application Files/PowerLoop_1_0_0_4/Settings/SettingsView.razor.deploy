@@ -1,0 +1,54 @@
+﻿<ObservableRegion ViewModel="@this.SettingsViewModel">
+    <div class="mx-3">
+        <MudPaper Elevation="0" Class="p-2">
+            <MudGrid Spacing="1">
+                <MudItem xs="12">
+                    <MudToolBar Dense="true" DisableGutters="true">
+                        <MudText Typo="Typo.h5">Settings</MudText>
+                        <MudTooltip Text="@this.Config.AppSettingsPath" Placement="Placement.Right" Class="ml-2">
+                            <MudIcon Icon="@Icons.Material.Filled.Info" Color="Color.Info"/>
+                        </MudTooltip>
+                    </MudToolBar>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudToolBar Dense="true" DisableGutters="true">
+                        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Size="Size.Small" Class="mr-3"
+                                   OnClick="@this.SettingsViewModel.OnSave">Save</MudButton>
+                        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small"
+                                   OnClick="@this.OnAdd">Add</MudButton>
+                    </MudToolBar>
+                </MudItem>
+                <MudItem xs="4">
+                    <MudNumericField @bind-Value="this.SettingsViewModel.DefaultInterval" Label="Loop Interval" Variant="Variant.Outlined" Min="0" FullWidth="false" Class="interval-input" />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudDataGrid T="ILoopItem" Items="@this.SettingsViewModel.LoopItems.OrderBy(i => i.Order)" Dense=true Bordered=true
+                                 ColumnResizeMode="ResizeMode.Column">
+                        <ColGroup>
+                            <col style="width: 20px;" />
+                            <col style="width: 40px;" />
+                            <col style="width: 50px;" />
+                            <col />
+                            <col style="width: 20px;" />
+                        </ColGroup>
+                        <Columns>
+                            <Column T="ILoopItem" CellClass="justify-start">
+                                <CellTemplate>
+                                    <MudIconButton Size="@Size.Small" Icon="@Icons.Outlined.Edit" OnClick="@(() => this.OnEdit(context.Item))" />
+                                </CellTemplate>
+                            </Column>
+                            <Column T="ILoopItem" Title="Order" Field="@nameof(ILoopItem.Order)" />
+                            <Column T="ILoopItem" Title="Type" Field="@nameof(ILoopItem.Type)" />
+                            <Column T="ILoopItem" Title="Path (Text Value)" Field="@nameof(ILoopItem.Path)" />
+                            <Column T="ILoopItem" CellClass="justify-end">
+                                <CellTemplate>
+                                    <MudIconButton Size="@Size.Small" Icon="@Icons.Outlined.Delete" Color="Color.Error" OnClick="@(() => this.OnDelete(context.Item))" />
+                                </CellTemplate>
+                            </Column>
+                        </Columns>
+                    </MudDataGrid>
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+    </div>
+</ObservableRegion>

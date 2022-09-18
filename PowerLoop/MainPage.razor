@@ -10,6 +10,8 @@
 <ObservableRegion ViewModel="@this.playViewModel">
     @if (!this.playViewModel.IsPlaying)
     {
-        <SettingsView />
+        <div class="mt-16">
+            <SettingsView />
+        </div>
     }
 </ObservableRegion>
