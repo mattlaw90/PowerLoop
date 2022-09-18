@@ -12,6 +12,7 @@ namespace PowerLoop.Play
     using System.Windows.Threading;
     using CommunityToolkit.Mvvm.ComponentModel;
     using MudBlazor;
+    using PowerLoop.AppConfig;
     using PowerLoop.Settings.Models;
     using PowerLoop.Settings.Queries;
     using PowerLoop.Shared;
@@ -19,6 +20,7 @@ namespace PowerLoop.Play
     public class PlayViewModel : ObservableObject, INotifier, IPlayViewModel
     {
         private readonly IGetSettings getSettings;
+        private readonly ISleepPreventer sleepPreventer;
         private DispatcherTimer timer;
         private int minOrder;
         private int maxOrder;
@@ -31,9 +33,12 @@ namespace PowerLoop.Play
 
         public event Action<ILoopItem> Cycling;
 
-        public PlayViewModel(IGetSettings getSettings)
+        public PlayViewModel(
+            IGetSettings getSettings,
+            ISleepPreventer sleepPreventer)
         {
             this.getSettings = getSettings;
+            this.sleepPreventer = sleepPreventer;
         }
 
         /// <summary>
@@ -70,6 +75,8 @@ namespace PowerLoop.Play
                 // Start
                 this.IsPlaying = true;
                 this.timer.Start();
+
+                this.sleepPreventer.Start();
             }
         }
 
@@ -81,6 +88,7 @@ namespace PowerLoop.Play
             // Stop the timer
             this.IsPlaying = false;
             this.timer.Stop();
+            this.sleepPreventer.Stop();
         }
 
         public bool OnTryStop(KeyEventArgs? args)

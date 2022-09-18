@@ -22,7 +22,7 @@ namespace PowerLoop.Settings.Queries
             this.appLogger = appLogger;
         }
 
-        public AppSettings? Execute()
+        public IAppSettings? Execute()
         {
             try
             {

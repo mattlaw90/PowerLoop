@@ -15,6 +15,6 @@ namespace PowerLoop.Settings.Queries
         /// Gets settings from the default save location.
         /// </summary>
         /// <returns>The settings if found.</returns>
-        AppSettings? Execute();
+        IAppSettings? Execute();
     }
 }

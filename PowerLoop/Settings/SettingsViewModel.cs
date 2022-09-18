@@ -17,7 +17,7 @@ namespace PowerLoop.Settings
     {
         private readonly IGetSettings getSettings;
         private readonly ISaveSettings saveSettings;
-        private AppSettings appSettings;
+        private IAppSettings appSettings;
         private int defaultInterval;
 
         public SettingsViewModel(

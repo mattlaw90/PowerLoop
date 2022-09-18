@@ -20,7 +20,7 @@ namespace PowerLoop.Settings.Commands
         }
 
         /// <inheritdoc/>
-        public string Execute(AppSettings settings)
+        public string Execute(IAppSettings settings)
         {
             // Get the file name only for media items (images and videos)
             foreach (var item in settings.LoopItems.Where(i => i.IsMedia))

@@ -22,7 +22,6 @@ namespace PowerLoop.Shared
         /// <param name="typeToConvert">The type - interface.</param>
         /// <param name="options">The options.</param>
         /// <returns>A nullable <see cref="TInterface"/>.</returns>
-        /// <exception cref="NotImplementedException"></exception>
         public override TInterface? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
             => (TInterface?)JsonSerializer.Deserialize(JsonDocument.ParseValue(ref reader), typeof(TType), options);
 
@@ -33,6 +32,6 @@ namespace PowerLoop.Shared
         /// <param name="value">The interface type.</param>
         /// <param name="options">The json serializer options.</param>
         public override void Write(Utf8JsonWriter writer, TInterface value, JsonSerializerOptions options)
-            => JsonSerializer.Serialize(writer, typeof(TType), options);
+            => JsonSerializer.Serialize(writer, value, typeof(TType), options);
     }
 }

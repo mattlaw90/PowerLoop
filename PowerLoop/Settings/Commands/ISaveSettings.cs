@@ -16,6 +16,6 @@ namespace PowerLoop.Settings.Commands
         /// </summary>
         /// <param name="settings">The settings to save.</param>
         /// <returns>The path save dto.</returns>
-        string Execute(AppSettings settings);
+        string Execute(IAppSettings settings);
     }
 }

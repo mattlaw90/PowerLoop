@@ -79,6 +79,9 @@ namespace PowerLoop
             // Add AppLogger once
             services.AddSingleton<IAppLogger, AppLogger>();
 
+            // Add the SleepPreventer
+            services.AddSingleton<ISleepPreventer, SleepPreventer>();
+
             this.serviceProvider = services.BuildServiceProvider();
         }
 
