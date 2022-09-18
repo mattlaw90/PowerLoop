@@ -83,8 +83,9 @@ namespace PowerLoop
 
             // Add the SleepPreventer
             services.AddSingleton<ISleepPreventer, SleepPreventer>();
+            services.AddSingleton<IGetVersion, GetVersion>();
 
-            // Add individual notifiers
+            // Add individual notifiers which get injected into Snackbus as a collection
             services.AddSingleton<INotifier>(s => s.GetRequiredService<IAppLogger>());
             services.AddSingleton<INotifier>(s => s.GetRequiredService<IPlayViewModel>());
             services.AddSingleton<INotifier>(s => s.GetRequiredService<ISettingsViewModel>());

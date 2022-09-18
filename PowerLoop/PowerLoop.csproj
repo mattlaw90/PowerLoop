@@ -40,4 +40,13 @@
 	<ItemGroup>
 	  <Content Include="IconPlain.ico" />
 	</ItemGroup>
+
+	<Target Name="SetAssemblyVersion" BeforeTargets="BeforeCompile">
+		<FormatVersion Version="$(ApplicationVersion)" Revision="$(ApplicationRevision)">
+			<Output PropertyName="AssemblyVersion" TaskParameter="OutputVersion" />
+		</FormatVersion>
+		<FormatVersion Version="$(ApplicationVersion)" Revision="$(ApplicationRevision)">
+			<Output PropertyName="FileVersion" TaskParameter="OutputVersion" />
+		</FormatVersion>
+	</Target>
 </Project>
