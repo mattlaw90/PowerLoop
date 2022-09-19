@@ -18,6 +18,10 @@ video {
     width: 100%;
 }
 
+.ploop-appbar {
+    background-color: #EEEEEE;
+}
+
 .loop-text {
     text-align: center;
 }

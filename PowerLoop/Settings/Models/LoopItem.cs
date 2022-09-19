@@ -53,6 +53,7 @@ namespace PowerLoop.Settings.Models
                 return new LoopItem()
                 {
                     Order = existingItems.NewOrder(),
+                    Type = LoopItemType.Image,
                 };
             }
 

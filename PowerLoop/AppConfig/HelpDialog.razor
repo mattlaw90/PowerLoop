@@ -1,0 +1,38 @@
+﻿@inject IConfig Config
+
+<MudDialog>
+    <DialogContent>
+        <MudList>
+            <MudListItem Icon="@Icons.Material.Filled.Add" IconColor="Color.Primary">
+                <div>Click the Add button to set loop items</div>
+                <div>Tip: Export slides from PowerPoint to .png files to use as images</div>
+            </MudListItem>
+            <MudListItem Icon="@Icons.Material.Filled.Save" IconColor="Color.Primary">
+                Click the Save button to save settings to the default location: @this.Config.AppSettingsPath
+            </MudListItem>
+            <MudListItem Icon="@Icons.Material.Filled.Edit" IconColor="Color.Primary">
+                Click the Edit (pencil) button to change an existing loop item
+            </MudListItem>
+            <MudListItem Icon="@Icons.Material.Filled.Delete" IconColor="Color.Error">
+                Click the Delete (rubbish bin) button to delete an existing loop item
+            </MudListItem>
+            <MudListItem Icon="@Icons.Material.Filled.PlayArrow" IconColor="Color.Success">
+                Click the Play button to start the loop
+                Press Esc (Escape) to stop the loop
+            </MudListItem>
+            <MudListItem Icon="@Icons.Material.Filled.Timer">
+                Change the Default Interval for the time spent on each item by default
+                (the Length can also be set per item)
+            </MudListItem>
+        </MudList>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Close">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    void Close() => MudDialog.Cancel();
+}

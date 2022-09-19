@@ -1,0 +1,17 @@
+﻿@inject IDialogService DialogService
+
+<MudIconButton Icon="@Icons.Material.Filled.Help" Color="Color.Info" Class="mx-2"
+               OnClick="@this.OnHelp"/>
+
+@code {
+    private void OnHelp()
+    {
+        var options = new DialogOptions()
+            {
+                CloseButton = true,
+                FullScreen = true,
+            };
+
+        this.DialogService.Show<HelpDialog>($"Help", options);
+    }
+}
