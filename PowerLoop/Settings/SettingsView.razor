@@ -33,12 +33,23 @@
                                  ColumnResizeMode="ResizeMode.Column">
                         <ColGroup>
                             <col style="width: 20px;" />
+                            <col style="width: 20px;" />
                             <col style="width: 40px;" />
                             <col style="width: 50px;" />
                             <col />
                             <col style="width: 20px;" />
                         </ColGroup>
                         <Columns>
+                            <Column T="ILoopItem" CellClass="justify-start">
+                                <CellTemplate>
+                                    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.ArrowDropUp" Color="Color.Primary" 
+                                                   OnClick="@(() => this.SettingsViewModel.OnMoveUp(context.Item))" 
+                                                   Disabled=@(!context.Item.CanMoveUp(this.SettingsViewModel.LoopItems))/>
+                                    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.ArrowDropDown" Color="Color.Primary"
+                                                   OnClick="@(() => this.SettingsViewModel.OnMoveDown(context.Item))"
+                                                   Disabled=@(!context.Item.CanMoveDown(this.SettingsViewModel.LoopItems)) />
+                                </CellTemplate>
+                            </Column>
                             <Column T="ILoopItem" CellClass="justify-start">
                                 <CellTemplate>
                                     <MudIconButton Size="@Size.Small" Icon="@Icons.Outlined.Edit" Color="Color.Primary"

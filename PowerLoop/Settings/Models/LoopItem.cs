@@ -67,6 +67,14 @@ namespace PowerLoop.Settings.Models
             };
         }
 
+        /// <inheritdoc/>
+        public bool CanMoveDown(IEnumerable<ILoopItem> existingItems)
+            => this.Order != existingItems.MaxOrder();
+
+        /// <inheritdoc/>
+        public bool CanMoveUp(IEnumerable<ILoopItem> existingItems)
+            => this.Order != existingItems.MinOrder();
+
         /// <summary>
         /// Copies property values from the given <see cref="LoopItem"/>.
         /// </summary>
@@ -80,6 +88,44 @@ namespace PowerLoop.Settings.Models
                 this.Type = loopItem.Type;
                 this.Length = loopItem.Length;
             }
+        }
+
+        /// <inheritdoc/>
+        public void Decrement(IEnumerable<ILoopItem> existingItems)
+        {
+            // Get the new order for this item
+            var newOrder = this.Order - 1;
+
+            // Get the existing item at this order
+            var matchingItem = existingItems.FirstOrDefault(i => i.Order == newOrder);
+
+            // Increment the existing item
+            if (matchingItem != null)
+            {
+                matchingItem.Order++;
+            }
+
+            // Decrement this item
+            this.Order--;
+        }
+
+        /// <inheritdoc/>
+        public void Increment(IEnumerable<ILoopItem> existingItems)
+        {
+            // Get the new order for this item
+            var newOrder = this.Order + 1;
+
+            // Get the existing item at this order
+            var matchingItem = existingItems.FirstOrDefault(i => i.Order == newOrder);
+
+            // Decrement the existing item
+            if (matchingItem != null)
+            {
+                matchingItem.Order--;
+            }
+
+            // Increment this item
+            this.Order++;
         }
 
         /// <summary>

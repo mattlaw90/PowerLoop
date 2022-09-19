@@ -26,5 +26,31 @@ namespace PowerLoop.Settings.Models
         void CopyFrom(ILoopItem? loopItem);
 
         ValidationResult IsValid(List<ILoopItem> existingItems);
+
+        /// <summary>
+        /// Returns a value indicating whether the item can be moved up in the list.
+        /// </summary>
+        /// <param name="existingItems">The list of existing items.</param>
+        /// <returns>True if it can move up.</returns>
+        bool CanMoveUp(IEnumerable<ILoopItem> existingItems);
+
+        /// <summary>
+        /// Returns a value indicating whether the item can be moved down the list.
+        /// </summary>
+        /// <param name="existingItems">The list of existing items.</param>
+        /// <returns>True if it can move down.</returns>
+        bool CanMoveDown(IEnumerable<ILoopItem> existingItems);
+
+        /// <summary>
+        /// Increases the order of this item and decreases the order of the item with the order matching the incremented value.
+        /// </summary>
+        /// <param name="existingItems">The list of items.</param>
+        void Increment(IEnumerable<ILoopItem> existingItems);
+
+        /// <summary>
+        /// Decreases the order of this item and increases the order of the item with the order matching the incremented value.
+        /// </summary>
+        /// <param name="existingItems">The list of items.</param>
+        void Decrement(IEnumerable<ILoopItem> existingItems);
     }
 }
