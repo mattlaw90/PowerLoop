@@ -52,5 +52,12 @@ namespace PowerLoop.Settings.Models
         /// </summary>
         /// <param name="existingItems">The list of items.</param>
         void Decrement(IEnumerable<ILoopItem> existingItems);
+
+        /// <summary>
+        /// Increments the order of all items at or greater than this item.
+        /// </summary>
+        /// <param name="existingItems">The list of items.</param>
+        /// <param name="isDeleted">A value indicating whether the item is to be deleted.</param>
+        void ReOrder(IEnumerable<ILoopItem> existingItems, bool isDeleted = false);
     }
 }

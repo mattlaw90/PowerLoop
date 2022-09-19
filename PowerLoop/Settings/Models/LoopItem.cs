@@ -137,13 +137,21 @@ namespace PowerLoop.Settings.Models
         {
             var validationResult = new ValidationResult();
 
-            if (existingItems.Any(i => i.Order == this.Order))
+            if (string.IsNullOrEmpty(this.Path))
             {
-                // TODO Handle if it is an item being edited
-                // validationResult.AddError($"An item with order {this.Order} already exists.");
+                validationResult.AddError($"Path cannot be empty.");
             }
 
             return validationResult;
+        }
+
+        /// <inheritdoc/>
+        public void ReOrder(IEnumerable<ILoopItem> existingItems, bool isDeleted = false)
+        {
+            existingItems
+                .Where(i => i != this && i.Order >= this.Order)
+                .ToList()
+                .ForEach(i => i.Order = isDeleted ? i.Order - 1 : i.Order + 1);
         }
     }
 }

@@ -78,12 +78,16 @@ namespace PowerLoop.Settings
         public void OnAdd(ILoopItem loopItem)
         {
             this.LoopItems.Add(loopItem);
+            loopItem.ReOrder(this.LoopItems);
+            this.OnSave();
         }
 
         /// <inheritdoc/>
         public void OnDelete(ILoopItem loopItem)
         {
             this.LoopItems.Remove(loopItem);
+            loopItem.ReOrder(this.LoopItems, true);
+            this.OnSave();
         }
 
         /// <inheritdoc/>
