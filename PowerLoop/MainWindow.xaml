@@ -7,7 +7,7 @@
         xmlns:blazor="clr-namespace:Microsoft.AspNetCore.Components.WebView.Wpf;assembly=Microsoft.AspNetCore.Components.WebView.Wpf"
         xmlns:local="clr-namespace:PowerLoop"
         mc:Ignorable="d"
-        Title="PowerLoop" Height="700" Width="1200"
+        Title="PowerLoop" Height="768" Width="1366"
         d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel, IsDesignTimeCreatable=False}"
         WindowStyle="{Binding CurrentWindowStyle}"
         WindowState="{Binding CurrentWindowState}"

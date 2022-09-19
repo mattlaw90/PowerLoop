@@ -42,19 +42,30 @@ namespace PowerLoop
 
         private void PlayViewModel_Cycling(ILoopItem item)
         {
-            // For each media item, split the folder and file name
-            FileInfo itemFile = new (item.Path);
-            var folder = itemFile.DirectoryName ?? itemFile.FullName;
-
-            // Set the fake https name for the item
-            // Set webview access permissions for local files
-            this.WebView.WebView.CoreWebView2.SetVirtualHostNameToFolderMapping(
-                this.virtualHost,
-                folder,
-                Microsoft.Web.WebView2.Core.CoreWebView2HostResourceAccessKind.Allow);
-
             // Reload the page for virtual host name
-            this.WebView.WebView.Reload();
+            if (item.IsMedia)
+            {
+                this.WebView.WebView.ZoomFactor = 1.0;
+
+                // For each media item, split the folder and file name
+                FileInfo itemFile = new(item.Path);
+                var folder = itemFile.DirectoryName ?? itemFile.FullName;
+
+                // Set the fake https name for the item
+                // Set webview access permissions for local files
+                this.WebView.WebView.CoreWebView2.SetVirtualHostNameToFolderMapping(
+                    this.virtualHost,
+                    folder,
+                    Microsoft.Web.WebView2.Core.CoreWebView2HostResourceAccessKind.Allow);
+
+                this.WebView.WebView.Reload();
+            }
+
+            if (item.Type == LoopItemType.Web)
+            {
+                this.WebView.WebView.ZoomFactor = 0.75;
+                this.WebView.WebView.CoreWebView2.ExecuteScriptAsync("window.scrollTo(0, 10000)");
+            }
         }
     }
 }
