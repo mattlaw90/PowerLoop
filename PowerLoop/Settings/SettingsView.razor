@@ -34,8 +34,10 @@
                         <ColGroup>
                             <col style="width: 20px;" />
                             <col style="width: 20px;" />
-                            <col style="width: 40px;" />
-                            <col style="width: 50px;" />
+                            <col style="width: 20px;" />
+                            <col style="width: 20px;" />
+                            <col style="width: 20px;" />
+                            <col style="width: 20px;" />
                             <col />
                             <col style="width: 20px;" />
                         </ColGroup>
@@ -58,6 +60,8 @@
                             </Column>
                             <Column T="ILoopItem" Title="Order" Field="@nameof(ILoopItem.Order)" />
                             <Column T="ILoopItem" Title="Type" Field="@nameof(ILoopItem.Type)" />
+                            <Column T="ILoopItem" Title="Zoom" Field="@nameof(ILoopItem.ZoomFactor)" />
+                            <Column T="ILoopItem" Title="Pixel Skip" Field="@nameof(ILoopItem.PixelSkip)" />
                             <Column T="ILoopItem" Title="Path (Text Value)" Field="@nameof(ILoopItem.Path)" />
                             <Column T="ILoopItem" CellClass="justify-end">
                                 <CellTemplate>
