@@ -15,7 +15,7 @@ namespace PowerLoop
     public class MainWindowViewModel : ObservableObject, IMainWindowViewModel
     {
         private readonly IPlayViewModel playViewModel;
-        private WindowState currentWindowState = WindowState.Normal;
+        private WindowState currentWindowState = WindowState.Maximized;
         private WindowStyle currentWindowStyle = WindowStyle.SingleBorderWindow;
         private ResizeMode currentResizeMode = ResizeMode.CanResize;
         private bool isTopmost;
@@ -56,10 +56,11 @@ namespace PowerLoop
 
             // Make topmost, maximized, remove style and set resize to none
             // Note the order is here is important. ResizeMode must be set first to cover the taskbar!
-            this.CurrentResizeMode = ResizeMode.NoResize;
-            this.CurrentWindowState = WindowState.Maximized;
-            this.CurrentWindowStyle = WindowStyle.None;
             this.IsTopmost = true;
+            this.CurrentResizeMode = ResizeMode.NoResize;
+            this.CurrentWindowStyle = WindowStyle.None;
+            this.CurrentWindowState = WindowState.Normal;
+            this.CurrentWindowState = WindowState.Maximized;
 
             // Show after changes
             this.CurrentVisibility = Visibility.Visible;
@@ -69,7 +70,6 @@ namespace PowerLoop
         public void OnStop()
         {
             this.IsTopmost = false;
-            this.CurrentWindowState = WindowState.Normal;
             this.CurrentWindowStyle = WindowStyle.SingleBorderWindow;
             this.CurrentResizeMode = ResizeMode.CanResize;
         }
