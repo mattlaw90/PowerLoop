@@ -40,7 +40,7 @@ namespace PowerLoop
 
             var vm = serviceProvider.GetRequiredService<IMainWindowViewModel>();
             this.DataContext = vm;
-            vm.Stopped += OnStopped;
+            vm.Stopped += this.OnStopped;
         }
 
         private void OnStopped()
@@ -70,11 +70,6 @@ namespace PowerLoop
 
                 this.WebView.WebView.Reload();
             }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            this.WebView.WebView.CoreWebView2.ExecuteScriptAsync("window.scrollBy(0, 10000)");
         }
     }
 }
