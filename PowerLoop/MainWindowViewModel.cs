@@ -55,11 +55,11 @@ namespace PowerLoop
             this.CurrentVisibility = Visibility.Collapsed;
 
             // Make topmost, maximized, remove style and set resize to none
-            //// Note the order is here is important. ResizeMode must be set first to cover the taskbar!
-            //this.CurrentResizeMode = ResizeMode.NoResize;
-            //this.CurrentWindowState = WindowState.Maximized;
-            //this.CurrentWindowStyle = WindowStyle.None;
-            //this.IsTopmost = true;
+            // Note the order is here is important. ResizeMode must be set first to cover the taskbar!
+            this.CurrentResizeMode = ResizeMode.NoResize;
+            this.CurrentWindowState = WindowState.Maximized;
+            this.CurrentWindowStyle = WindowStyle.None;
+            this.IsTopmost = true;
 
             // Show after changes
             this.CurrentVisibility = Visibility.Visible;
