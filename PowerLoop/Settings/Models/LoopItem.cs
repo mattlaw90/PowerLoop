@@ -39,6 +39,12 @@ namespace PowerLoop.Settings.Models
         /// </summary>
         public bool IsMedia => this.Type == LoopItemType.Image || this.Type == LoopItemType.Video;
 
+        /// <inheritdoc/>
+        public int? ZoomFactor { get; set; }
+
+        /// <inheritdoc/>
+        public int? PixelSkip { get; set; }
+
         /// <summary>
         /// Returns a new <see cref="LoopItem"/>.
         /// </summary>
@@ -64,8 +70,18 @@ namespace PowerLoop.Settings.Models
                 Path = loopItem.Path,
                 Order = loopItem.Order,
                 Length = loopItem.Length,
+                ZoomFactor = loopItem.ZoomFactor,
+                PixelSkip = loopItem.PixelSkip,
             };
         }
+
+        /// <inheritdoc/>
+        public bool CanMoveDown(IEnumerable<ILoopItem> existingItems)
+            => this.Order != existingItems.MaxOrder();
+
+        /// <inheritdoc/>
+        public bool CanMoveUp(IEnumerable<ILoopItem> existingItems)
+            => this.Order != existingItems.MinOrder();
 
         /// <summary>
         /// Copies property values from the given <see cref="LoopItem"/>.
@@ -79,7 +95,47 @@ namespace PowerLoop.Settings.Models
                 this.Path = loopItem.Path;
                 this.Type = loopItem.Type;
                 this.Length = loopItem.Length;
+                this.ZoomFactor = loopItem.ZoomFactor;
+                this.PixelSkip = loopItem.PixelSkip;
             }
+        }
+
+        /// <inheritdoc/>
+        public void Decrement(IEnumerable<ILoopItem> existingItems)
+        {
+            // Get the new order for this item
+            var newOrder = this.Order - 1;
+
+            // Get the existing item at this order
+            var matchingItem = existingItems.FirstOrDefault(i => i.Order == newOrder);
+
+            // Increment the existing item
+            if (matchingItem != null)
+            {
+                matchingItem.Order++;
+            }
+
+            // Decrement this item
+            this.Order--;
+        }
+
+        /// <inheritdoc/>
+        public void Increment(IEnumerable<ILoopItem> existingItems)
+        {
+            // Get the new order for this item
+            var newOrder = this.Order + 1;
+
+            // Get the existing item at this order
+            var matchingItem = existingItems.FirstOrDefault(i => i.Order == newOrder);
+
+            // Decrement the existing item
+            if (matchingItem != null)
+            {
+                matchingItem.Order--;
+            }
+
+            // Increment this item
+            this.Order++;
         }
 
         /// <summary>
@@ -91,13 +147,21 @@ namespace PowerLoop.Settings.Models
         {
             var validationResult = new ValidationResult();
 
-            if (existingItems.Any(i => i.Order == this.Order))
+            if (string.IsNullOrEmpty(this.Path))
             {
-                // TODO Handle if it is an item being edited
-                // validationResult.AddError($"An item with order {this.Order} already exists.");
+                validationResult.AddError($"Path cannot be empty.");
             }
 
             return validationResult;
+        }
+
+        /// <inheritdoc/>
+        public void ReOrder(IEnumerable<ILoopItem> existingItems, bool isDeleted = false)
+        {
+            existingItems
+                .Where(i => i != this && i.Order >= this.Order)
+                .ToList()
+                .ForEach(i => i.Order = isDeleted ? i.Order - 1 : i.Order + 1);
         }
     }
 }

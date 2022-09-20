@@ -136,10 +136,7 @@ namespace PowerLoop.Play
             // Item length is calculated on settings config
             this.timer.Interval = new System.TimeSpan(0, 0, Math.Max(this.appSettings.DefaultInterval, nextItem.Length));
 
-            if (nextItem.IsMedia)
-            {
-                this.Cycling?.Invoke(nextItem);
-            }
+            this.Cycling?.Invoke(nextItem);
 
             this.CurrentItem = nextItem;
         }

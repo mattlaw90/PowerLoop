@@ -26,5 +26,17 @@ namespace PowerLoop.Settings
         void OnGet();
 
         void OnSave();
+
+        /// <summary>
+        /// Moves the loop item up in the order - decreases the order value.
+        /// </summary>
+        /// <param name="loopItem">The item to move up.</param>
+        void OnMoveUp(ILoopItem loopItem);
+
+        /// <summary>
+        /// Moves the loop item down in the order - increases the order value.
+        /// </summary>
+        /// <param name="loopItem">The item to move down.</param>
+        void OnMoveDown(ILoopItem loopItem);
     }
 }

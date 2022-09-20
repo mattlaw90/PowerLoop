@@ -28,12 +28,16 @@ namespace PowerLoop.Settings
             this.saveSettings = saveSettings;
         }
 
+        /// <inheritdoc/>
         public event Action<string, Severity> Notified;
 
+        /// <inheritdoc/>
         public List<ILoopItem> LoopItems { get; } = new List<ILoopItem>();
 
+        /// <inheritdoc/>
         public int DefaultInterval { get => this.defaultInterval; set => this.SetProperty(ref this.defaultInterval, value); }
 
+        /// <inheritdoc/>
         public void OnGet()
         {
             if (this.getSettings.Execute() is AppSettings settings)
@@ -47,6 +51,7 @@ namespace PowerLoop.Settings
             }
         }
 
+        /// <inheritdoc/>
         public void OnSave()
         {
             // Create a new appsettings if not previously retrieved
@@ -69,14 +74,34 @@ namespace PowerLoop.Settings
             this.Notified?.Invoke($"Settings saved in: {path}", Severity.Success);
         }
 
+        /// <inheritdoc/>
         public void OnAdd(ILoopItem loopItem)
         {
             this.LoopItems.Add(loopItem);
+            loopItem.ReOrder(this.LoopItems);
+            this.OnSave();
         }
 
+        /// <inheritdoc/>
         public void OnDelete(ILoopItem loopItem)
         {
             this.LoopItems.Remove(loopItem);
+            loopItem.ReOrder(this.LoopItems, true);
+            this.OnSave();
+        }
+
+        /// <inheritdoc/>
+        public void OnMoveUp(ILoopItem loopItem)
+        {
+            loopItem.Decrement(this.LoopItems);
+            this.OnSave();
+        }
+
+        /// <inheritdoc/>
+        public void OnMoveDown(ILoopItem loopItem)
+        {
+            loopItem.Increment(this.LoopItems);
+            this.OnSave();
         }
     }
 }

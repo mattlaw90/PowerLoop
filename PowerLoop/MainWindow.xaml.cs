@@ -11,6 +11,7 @@ namespace PowerLoop
     using PowerLoop.AppConfig;
     using PowerLoop.Play;
     using PowerLoop.Settings.Models;
+    using static MudBlazor.CategoryTypes;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml.
@@ -37,24 +38,38 @@ namespace PowerLoop
             var config = serviceProvider.GetRequiredService<IConfig>();
             this.virtualHost = config.VirtualHost;
 
-            this.DataContext = serviceProvider.GetRequiredService<IMainWindowViewModel>();
+            var vm = serviceProvider.GetRequiredService<IMainWindowViewModel>();
+            this.DataContext = vm;
+            vm.Stopped += this.OnStopped;
+        }
+
+        private void OnStopped()
+        {
+            // Reset the zoomfactor to 1 for the app view
+            this.WebView.WebView.ZoomFactor = 1.0;
         }
 
         private void PlayViewModel_Cycling(ILoopItem item)
         {
-            // For each media item, split the folder and file name
-            FileInfo itemFile = new (item.Path);
-            var folder = itemFile.DirectoryName ?? itemFile.FullName;
-
-            // Set the fake https name for the item
-            // Set webview access permissions for local files
-            this.WebView.WebView.CoreWebView2.SetVirtualHostNameToFolderMapping(
-                this.virtualHost,
-                folder,
-                Microsoft.Web.WebView2.Core.CoreWebView2HostResourceAccessKind.Allow);
+            // Set the zoom factor if set on the item, otherwise default to 100
+            this.WebView.WebView.ZoomFactor = item.ZoomFactor is int i ? (double)i / 100.0 : 1.0;
 
             // Reload the page for virtual host name
-            this.WebView.WebView.Reload();
+            if (item.IsMedia)
+            {
+                // For each media item, split the folder and file name
+                FileInfo itemFile = new(item.Path);
+                var folder = itemFile.DirectoryName ?? itemFile.FullName;
+
+                // Set the fake https name for the item
+                // Set webview access permissions for local files
+                this.WebView.WebView.CoreWebView2.SetVirtualHostNameToFolderMapping(
+                    this.virtualHost,
+                    folder,
+                    Microsoft.Web.WebView2.Core.CoreWebView2HostResourceAccessKind.Allow);
+
+                this.WebView.WebView.Reload();
+            }
         }
     }
 }

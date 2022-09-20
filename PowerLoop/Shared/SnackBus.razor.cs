@@ -6,6 +6,7 @@ namespace PowerLoop.Shared
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Microsoft.AspNetCore.Components;
     using MudBlazor;
 
@@ -47,6 +48,18 @@ namespace PowerLoop.Shared
             }
         }
 
-        private void Notify(string message, Severity severity) => this.Snackbar.Add(message, severity);
+        private void Notify(string message, Severity severity)
+        {
+            // Get snacks with the same message and severity
+            var sameSnacks = this.Snackbar.ShownSnackbars
+                .Where(x => x.Message == message && x.Severity == severity)
+                .ToList();
+
+            // Remove the matching snacks to not spam
+            sameSnacks.ForEach(s => this.Snackbar.Remove(s));
+
+            // Add the new snack
+            this.Snackbar.Add(message, severity);
+        }
     }
 }

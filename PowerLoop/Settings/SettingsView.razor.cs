@@ -56,7 +56,6 @@ namespace PowerLoop.Settings
             if (result.Data is LoopItem li)
             {
                 this.SettingsViewModel.OnAdd(li);
-                this.SettingsViewModel.OnSave();
             }
         }
 
@@ -102,7 +101,6 @@ namespace PowerLoop.Settings
             if (result == true)
             {
                 this.SettingsViewModel.OnDelete(loopItem);
-                this.SettingsViewModel.OnSave();
             }
         }
     }
