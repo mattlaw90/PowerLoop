@@ -11,6 +11,7 @@ namespace PowerLoop
     using PowerLoop.AppConfig;
     using PowerLoop.Play;
     using PowerLoop.Settings.Models;
+    using static MudBlazor.CategoryTypes;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml.
@@ -37,16 +38,25 @@ namespace PowerLoop
             var config = serviceProvider.GetRequiredService<IConfig>();
             this.virtualHost = config.VirtualHost;
 
-            this.DataContext = serviceProvider.GetRequiredService<IMainWindowViewModel>();
+            var vm = serviceProvider.GetRequiredService<IMainWindowViewModel>();
+            this.DataContext = vm;
+            vm.Stopped += OnStopped;
+        }
+
+        private void OnStopped()
+        {
+            // Reset the zoomfactor to 1 for the app view
+            this.WebView.WebView.ZoomFactor = 1.0;
         }
 
         private void PlayViewModel_Cycling(ILoopItem item)
         {
+            // Set the zoom factor if set on the item, otherwise default to 100
+            this.WebView.WebView.ZoomFactor = item.ZoomFactor is int i ? (double)i / 100.0 : 1.0;
+
             // Reload the page for virtual host name
             if (item.IsMedia)
             {
-                this.WebView.WebView.ZoomFactor = 1.0;
-
                 // For each media item, split the folder and file name
                 FileInfo itemFile = new(item.Path);
                 var folder = itemFile.DirectoryName ?? itemFile.FullName;
@@ -60,12 +70,11 @@ namespace PowerLoop
 
                 this.WebView.WebView.Reload();
             }
+        }
 
-            if (item.Type == LoopItemType.Web)
-            {
-                this.WebView.WebView.ZoomFactor = 0.75;
-                this.WebView.WebView.CoreWebView2.ExecuteScriptAsync("window.scrollTo(0, 10000)");
-            }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.WebView.WebView.CoreWebView2.ExecuteScriptAsync("window.scrollBy(0, 10000)");
         }
     }
 }

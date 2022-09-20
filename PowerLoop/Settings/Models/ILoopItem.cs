@@ -23,6 +23,16 @@ namespace PowerLoop.Settings.Models
 
         LoopItemType Type { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value to set the zoom factor for this item.
+        /// </summary>
+        int? ZoomFactor { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value for the amount of pixels to skip on the screen.
+        /// </summary>
+        int? PixelSkip { get; set; }
+
         void CopyFrom(ILoopItem? loopItem);
 
         ValidationResult IsValid(List<ILoopItem> existingItems);

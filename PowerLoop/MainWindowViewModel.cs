@@ -4,6 +4,7 @@
 
 namespace PowerLoop
 {
+    using System;
     using System.Windows;
     using System.Windows.Input;
     using CommunityToolkit.Mvvm.ComponentModel;
@@ -25,6 +26,9 @@ namespace PowerLoop
         {
             this.playViewModel = playViewModel;
         }
+
+        /// <inheritdoc/>
+        public event Action Stopped;
 
         /// <inheritdoc/>
         public WindowState CurrentWindowState { get => this.currentWindowState; set => this.SetProperty(ref this.currentWindowState, value); }
@@ -77,6 +81,7 @@ namespace PowerLoop
                 this.playViewModel.OnTryStop(args))
             {
                 this.OnStop();
+                this.Stopped?.Invoke();
             }
         }
     }

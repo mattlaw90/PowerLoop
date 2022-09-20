@@ -39,6 +39,12 @@ namespace PowerLoop.Settings.Models
         /// </summary>
         public bool IsMedia => this.Type == LoopItemType.Image || this.Type == LoopItemType.Video;
 
+        /// <inheritdoc/>
+        public int? ZoomFactor { get; set; }
+
+        /// <inheritdoc/>
+        public int? PixelSkip { get; set; }
+
         /// <summary>
         /// Returns a new <see cref="LoopItem"/>.
         /// </summary>
@@ -64,6 +70,8 @@ namespace PowerLoop.Settings.Models
                 Path = loopItem.Path,
                 Order = loopItem.Order,
                 Length = loopItem.Length,
+                ZoomFactor = loopItem.ZoomFactor,
+                PixelSkip = loopItem.PixelSkip,
             };
         }
 
@@ -87,6 +95,8 @@ namespace PowerLoop.Settings.Models
                 this.Path = loopItem.Path;
                 this.Type = loopItem.Type;
                 this.Length = loopItem.Length;
+                this.ZoomFactor = loopItem.ZoomFactor;
+                this.PixelSkip = loopItem.PixelSkip;
             }
         }
 

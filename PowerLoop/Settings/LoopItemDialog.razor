@@ -32,6 +32,16 @@
                         </MudTextField>
                     </MudToolBar>
                 </MudItem>
+                <MudItem xs="4">
+                    <MudNumericField T="int?" @bind-Value="this.localLoopItem.ZoomFactor"
+                                 Label="Zoom (%)" Variant="Variant.Outlined"
+                                 AdornmentIcon="@Icons.Material.Filled.ZoomOut" Adornment="Adornment.Start" />
+                </MudItem>
+                <MudItem xs="4">
+                    <MudNumericField T="int?" @bind-Value="this.localLoopItem.PixelSkip"
+                                 Label="Pixel Skip (Simulate Scroll on Web Content)" Variant="Variant.Outlined"
+                                 AdornmentIcon="@Icons.Material.Filled.HideImage" Adornment="Adornment.Start" />
+                </MudItem>
             </MudGrid>
         }
     </DialogContent>

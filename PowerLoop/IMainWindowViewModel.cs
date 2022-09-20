@@ -4,6 +4,7 @@
 
 namespace PowerLoop
 {
+    using System;
     using System.Windows;
     using System.Windows.Input;
 
@@ -12,6 +13,11 @@ namespace PowerLoop
     /// </summary>
     public interface IMainWindowViewModel
     {
+        /// <summary>
+        /// The action invoked when stopped.
+        /// </summary>
+        event Action Stopped;
+
         /// <summary>
         /// Gets or sets the resize mode.
         /// </summary>
