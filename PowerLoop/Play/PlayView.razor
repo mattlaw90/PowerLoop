@@ -11,16 +11,16 @@
         {
             @*<img src="data:image/bmp;base64, @(this.PlayViewModel.MediaBase64)" />*@
             @*<img src="@li.Path" />*@
-            <img src="@($"https://{this.Config.VirtualHost}/{li.FileName}")"/>
+            <img class="fade-in" src="@($"https://{this.Config.VirtualHost}/{li.FileName}")" />
         }
         else if (li.Type == LoopItemType.Web)
         {
-            <iframe src="@li.Path" scrolling="no"
+            <iframe class="fade-in" src="@li.Path" scrolling="no"
                     style="@($"margin-top: -{li.PixelSkip}px; height: calc(100% + {li.PixelSkip}px);")"></iframe>
         }
         else if (li.Type == LoopItemType.Video)
         {
-            <video src="@($"https://{this.Config.VirtualHost}/{li.FileName}")" type="video/mp4" autoplay loop />
+            <video class="fade-in" src="@($"https://{this.Config.VirtualHost}/{li.FileName}")" type="video/mp4" autoplay loop />
         }
     }
 </ObservableRegion>
