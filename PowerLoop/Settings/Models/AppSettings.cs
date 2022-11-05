@@ -8,6 +8,8 @@ namespace PowerLoop.Settings.Models
 
     public class AppSettings : IAppSettings
     {
+        public int StartItem { get; set; }
+
         public int DefaultInterval { get; set; }
 
         public List<ILoopItem> LoopItems { get; set; }

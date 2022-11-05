@@ -28,6 +28,16 @@
                                      Variant="Variant.Outlined" Min="0" FullWidth="false"
                                      @bind-Value="this.SettingsViewModel.DefaultInterval"/>
                 </MudItem>
+                <MudItem xs="4">
+                    <MudNumericField AdornmentIcon="@Icons.Material.Filled.Start" Adornment="Adornment.Start"
+                                     Label="Start Item"
+                                     Variant="Variant.Outlined" Min="1" FullWidth="false"
+                                     @bind-Value="this.SettingsViewModel.StartItem" />
+                    @if (this.SettingsViewModel.LoopItems.Select(i => i.Order).All(o => o != this.SettingsViewModel.StartItem))
+                    {
+                        <MudText Typo="Typo.body2" Color="Color.Error">Start Item does not match any item Order</MudText>
+                    }
+                </MudItem>
                 <MudItem xs="12">
                     <MudDataGrid T="ILoopItem" Items="@this.SettingsViewModel.LoopItems.OrderBy(i => i.Order)" Dense=true Bordered=true
                                  ColumnResizeMode="ResizeMode.Column">
