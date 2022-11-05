@@ -79,7 +79,7 @@ namespace PowerLoop.Play
                         this.CurrentItem = null;
 
                         // Cycle once to set the first item
-                        this.Cycle(this, new EventArgs());
+                        this.Cycle(this, new EventArgs(), start: true);
 
                         // Start
                         this.IsPlaying = true;
@@ -125,12 +125,17 @@ namespace PowerLoop.Play
             return false;
         }
 
-        private void Cycle(object? sender, System.EventArgs e)
+        private void Cycle(object? sender, System.EventArgs e, bool start = false)
         {
             // TODO Display transition state
             var nextItem = this.CurrentItem?.Order == this.maxOrder || this.CurrentItem == null
                 ? this.Items.First(i => i.Order == this.minOrder)
                 : this.Items.First(i => i.Order > this.currentItem.Order);
+
+            if (start)
+            {
+                nextItem = this.Items.FirstOrDefault(i => i.Order == this.appSettings.StartItem) ?? nextItem;
+            }
 
             // Change the interval depending on length of item
             // Item length is calculated on settings config
@@ -152,7 +157,7 @@ namespace PowerLoop.Play
                 {
                     // Initialise the timer
                     this.timer = new DispatcherTimer();
-                    this.timer.Tick += this.Cycle;
+                    this.timer.Tick += (o, e) => this.Cycle(o, e);
                     this.timer.Interval = new System.TimeSpan(0, 0, this.appSettings.DefaultInterval);
                 }
 

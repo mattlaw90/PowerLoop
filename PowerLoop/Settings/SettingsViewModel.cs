@@ -19,6 +19,7 @@ namespace PowerLoop.Settings
         private readonly ISaveSettings saveSettings;
         private IAppSettings appSettings;
         private int defaultInterval;
+        private int startItem = 1;
 
         public SettingsViewModel(
             IGetSettings getSettings,
@@ -38,6 +39,9 @@ namespace PowerLoop.Settings
         public int DefaultInterval { get => this.defaultInterval; set => this.SetProperty(ref this.defaultInterval, value); }
 
         /// <inheritdoc/>
+        public int StartItem { get => this.startItem; set => this.SetProperty(ref this.startItem, value); }
+
+        /// <inheritdoc/>
         public void OnGet()
         {
             if (this.getSettings.Execute() is AppSettings settings)
@@ -48,6 +52,7 @@ namespace PowerLoop.Settings
                 this.LoopItems.AddRange(this.appSettings.LoopItems.OrderBy(i => i.Order));
 
                 this.DefaultInterval = this.appSettings.DefaultInterval;
+                this.StartItem = this.appSettings.StartItem;
             }
         }
 
@@ -59,12 +64,14 @@ namespace PowerLoop.Settings
             {
                 this.appSettings = new AppSettings()
                 {
+                    StartItem = this.startItem,
                     DefaultInterval = this.defaultInterval,
                     LoopItems = this.LoopItems,
                 };
             }
             else
             {
+                this.appSettings.StartItem = this.StartItem;
                 this.appSettings.DefaultInterval = this.DefaultInterval;
                 this.appSettings.LoopItems = this.LoopItems;
             }

@@ -13,6 +13,8 @@ namespace PowerLoop.Settings
 
     public interface ISettingsViewModel : INotifier, INotifyPropertyChanged
     {
+        int StartItem { get; set; }
+
         int DefaultInterval { get; set; }
 
         List<ILoopItem> LoopItems { get; }
